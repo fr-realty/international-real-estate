@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>International Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1B2A;--navy2:#162032;--navy3:#1E2D42;
+  --gold:#C9A84C;--gold2:#E8C97A;--gold-dim:#8A6E2F;
+  --cream:#F7F3EC;--cream2:#EDE8DF;
+  --white:#FFFFFF;--off:#F0ECE4;
+  --muted:#7A8899;--mid:#4A5668;--text:#1A2433;
+  --border:rgba(201,168,76,0.2);--border2:rgba(201,168,76,0.45);
+  --red:#B83232;--green:#2A7A4A;
+  --shadow:0 4px 24px rgba(13,27,42,0.12);
+  --shadow2:0 8px 40px rgba(13,27,42,0.18);
+  --r:6px;
+}
+html,body{height:100%;font-family:'Jost',sans-serif;font-size:14px;color:var(--text);background:var(--cream);overflow:hidden}
+
+/* ── LAYOUT ────────────────────────────────────── */
+.shell{display:flex;flex-direction:column;height:100vh}
+
+/* ── TOPBAR ────────────────────────────────────── */
+.topbar{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:56px;border-bottom:1px solid rgba(201,168,76,0.25);flex-shrink:0;z-index:50}
+.brand{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);letter-spacing:.06em;white-space:nowrap}
+.brand small{color:rgba(255,255,255,.45);font-family:'Jost',sans-serif;font-size:11px;font-weight:300;letter-spacing:.12em;text-transform:uppercase;display:block;margin-top:-2px}
+.topbar-nav{display:flex;gap:6px;align-items:center}
+
+/* ── BUTTONS ───────────────────────────────────── */
+button{font-family:'Jost',sans-serif;cursor:pointer;border:none;transition:all .18s;font-size:13px}
+.btn{padding:7px 16px;border-radius:var(--r);font-weight:500}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold2)}
+.btn-ghost{background:transparent;color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.18);padding:6px 13px;border-radius:var(--r)}
+.btn-ghost:hover{background:rgba(255,255,255,.08);color:#fff}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid var(--border2);padding:6px 13px;border-radius:var(--r)}
+.btn-outline:hover{background:rgba(201,168,76,.08)}
+.btn-danger{background:transparent;color:var(--red);border:1px solid rgba(184,50,50,.3);padding:6px 12px;border-radius:var(--r)}
+.btn-danger:hover{background:rgba(184,50,50,.06)}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-icon{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:15px;padding:0}
+
+/* ── MAIN BODY ─────────────────────────────────── */
+.body{display:flex;flex:1;overflow:hidden}
+
+/* ── SIDEBAR ───────────────────────────────────── */
+.sidebar{width:290px;min-width:290px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sb-head{background:var(--navy2);padding:1rem;border-bottom:1px solid rgba(201,168,76,.2)}
+.sb-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:.75rem}
+.sb-filters{padding:.75rem;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:.55rem}
+
+/* form controls */
+select,input[type=text],input[type=number],input[type=email],input[type=tel],textarea{font-family:'Jost',sans-serif;font-size:13px;border:1px solid #ddd;border-radius:var(--r);background:var(--off);color:var(--text);outline:none;transition:border-color .15s}
+select:focus,input:focus,textarea:focus{border-color:var(--gold)}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.fg select,.fg input{width:100%;padding:7px 9px}
+.search-wrap{position:relative}
+.search-wrap input{width:100%;padding:8px 10px 8px 32px;background:var(--navy3);border:1px solid rgba(201,168,76,.2);color:#fff}
+.search-wrap input::placeholder{color:rgba(255,255,255,.35)}
+.search-wrap input:focus{border-color:var(--gold)}
+.search-ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none;color:#fff;font-size:14px}
+
+.prop-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:0}
+.pcard{padding:10px 12px;border-bottom:1px solid #eee;cursor:pointer;transition:background .15s;position:relative}
+.pcard:hover{background:rgba(201,168,76,.07)}
+.pcard.active{background:rgba(201,168,76,.12);border-left:3px solid var(--gold)}
+.pcard .pn{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:55px;margin-bottom:2px}
+.pcard .pl{font-size:11px;color:var(--muted);margin-bottom:3px}
+.pcard .pp{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold-dim);font-weight:600}
+.ptag{position:absolute;top:8px;right:8px;font-size:9px;padding:2px 7px;border-radius:20px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.tag-v{background:rgba(42,122,74,.12);color:var(--green)}
+.tag-a{background:rgba(201,168,76,.15);color:var(--gold-dim)}
+
+.stats-bar{display:flex;gap:.5rem;padding:.45rem 1rem;background:var(--off);border-top:1px solid #e8e4dc;font-size:11px;color:var(--muted);align-items:center;flex-shrink:0}
+.stats-bar strong{color:var(--text);font-weight:600}
+
+/* ── MAIN ──────────────────────────────────────── */
+.main{flex:1;overflow-y:auto;background:var(--cream)}
+
+/* Welcome */
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;color:var(--muted);padding:2rem}
+.welcome-logo{font-family:'Playfair Display',serif;font-size:60px;color:rgba(201,168,76,.18);margin-bottom:1rem;line-height:1}
+.welcome h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:500;color:var(--mid);margin-bottom:.5rem}
+.welcome p{font-size:13px;max-width:400px;line-height:1.7}
+
+/* Detail */
+.detail{padding:1.75rem}
+.detail-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:1rem;flex-wrap:wrap}
+.detail-hl{}
+.dtitle{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--navy);line-height:1.2;margin-bottom:4px}
+.dloc{font-size:12px;color:var(--muted)}
+.dacts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.dprice{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--gold-dim);margin-bottom:1rem}
+.dprice small{font-family:'Jost',sans-serif;font-size:13px;color:var(--muted);font-weight:400}
+
+/* Gallery */
+.gal{margin-bottom:1.5rem}
+.gal-main{width:100%;height:340px;border-radius:var(--r);background:var(--cream2);border:1px solid var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative}
+.gal-main img{width:100%;height:100%;object-fit:cover;display:block}
+.gal-main video{width:100%;height:100%;object-fit:cover}
+.gal-empty{color:var(--muted);text-align:center;font-size:13px}
+.gal-empty span{font-size:44px;display:block;opacity:.2;margin-bottom:6px}
+.gal-nav{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 10px;pointer-events:none}
+.gal-nav button{background:rgba(13,27,42,.6);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;pointer-events:all;transition:background .15s}
+.gal-nav button:hover{background:rgba(201,168,76,.8)}
+.gal-thumbs{display:flex;gap:7px;flex-wrap:wrap}
+.gthumb{width:76px;height:58px;border-radius:4px;border:2px solid transparent;overflow:hidden;background:var(--cream2);cursor:pointer;flex-shrink:0;transition:border-color .15s;position:relative}
+.gthumb img,.gthumb video{width:100%;height:100%;object-fit:cover;display:block}
+.gthumb.active{border-color:var(--gold)}
+.gthumb-type{position:absolute;bottom:2px;right:3px;font-size:9px;background:rgba(0,0,0,.6);color:#fff;padding:1px 4px;border-radius:2px}
+.gadd{width:76px;height:58px;border-radius:4px;border:1px dashed var(--border2);background:var(--off);color:var(--muted);cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.gadd:hover{background:rgba(201,168,76,.1);color:var(--gold);border-color:var(--gold)}
+
+/* Info cards */
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.icard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px}
+.icard .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin-bottom:3px}
+.icard .val{font-size:15px;font-weight:600;color:var(--navy)}
+
+/* Features */
+.feat-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+.feat-chip{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--mid);font-weight:500}
+
+/* Sections */
+.sec{margin-bottom:1.5rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--navy);margin-bottom:.65rem;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.notes-box{font-size:13px;line-height:1.75;color:var(--mid);background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.map-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--gold-dim);text-decoration:none;font-weight:500;margin-top:4px}
+.map-link:hover{color:var(--gold)}
+
+/* Agent chip */
+.agent-chip{display:inline-flex;align-items:center;gap:10px;background:var(--navy2);border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;margin-bottom:1.5rem}
+.agent-chip .av{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.agent-chip .ai{color:#fff}
+.agent-chip .an{font-weight:600;font-size:13px}
+.agent-chip .ac{font-size:11px;color:var(--muted)}
+
+/* PDF actions */
+.share-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+
+/* ── MODALS ────────────────────────────────────── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(13,27,42,.7);z-index:100;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+.overlay.open{display:flex}
+.modal{background:var(--white);border-radius:10px;width:100%;max-width:780px;max-height:90vh;overflow-y:auto;padding:2rem;border:1px solid var(--border);box-shadow:var(--shadow2);margin:auto}
+.modal-sm{max-width:480px}
+.modal-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:.75rem}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.fg input,.fg select,.fg textarea{width:100%;padding:8px 10px}
+.fg textarea{resize:vertical;min-height:80px}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
+
+/* Checkbox grid */
+.cb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.cb-item{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer;padding:4px 0}
+.cb-item input{accent-color:var(--gold);width:14px;height:14px;cursor:pointer}
+
+/* Agent list */
+.agent-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.agent-row{display:flex;align-items:center;gap:10px;background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px}
+.agent-row .av{width:34px;height:34px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.agent-row .ai{flex:1}
+.agent-row .an{font-weight:600;font-size:13px}
+.agent-row .ac{font-size:11px;color:var(--muted)}
+.agent-row .aa{display:flex;gap:5px}
+
+/* Tab bar */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.25rem}
+.tab{padding:8px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* Private note */
+.priv-badge{background:rgba(184,50,50,.08);border:1px solid rgba(184,50,50,.25);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--red);margin-bottom:1rem}
+.priv-badge strong{display:block;margin-bottom:2px;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+.hidden{display:none!important}
+.divider{border:none;border-top:1px solid var(--border);margin:.75rem 0}
+.badge{display:inline-block;background:var(--gold);color:var(--navy);border-radius:20px;font-size:10px;font-weight:700;padding:1px 7px;margin-left:5px}
+
+/* Print / PDF styles */
+@media print{
+  .topbar,.sidebar,.dacts,.share-bar,.gal-nav,.gadd,.priv-badge,.priv-section{display:none!important}
+  .shell{display:block}
+  .body{display:block}
+  .main{overflow:visible}
+  .detail{padding:1rem}
+  body{font-size:12px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="brand">
+    International Real Estate
+    <small>Private Property Database</small>
+  </div>
+  <div class="topbar-nav">
+    <button class="btn btn-ghost" onclick="openAgents()">👤 Agenti</button>
+    <button class="btn btn-ghost" onclick="openIOModal()">⇅ Import/Export</button>
+    <button class="btn btn-gold" onclick="openAddProperty()">+ Nuovo Immobile</button>
+  </div>
+</div>
+
+<div class="body">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-head">
+    <div class="sb-title" id="langSearch">Ricerca Avanzata</div>
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input type="text" id="searchQ" placeholder="Cerca per descrizione, indirizzo..." oninput="applyFilters()">
+    </div>
+  </div>
+
+  <div class="sb-filters">
+    <div class="fg">
+      <label class="fl">Affare</label>
+      <select id="fDeal" onchange="applyFilters()">
+        <option value="">Tutti</option>
+        <option value="Vendita">Vendita</option>
+        <option value="Affitto">Affitto</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl">Nazione</label>
+      <select id="fNation" onchange="syncCityFilter();applyFilters()">
+        <option value="">Tutte le nazioni</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl">Città</label>
+      <select id="fCity" onchange="syncZoneFilter();applyFilters()">
+        <option value="">Tutte le città</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl">Zona</label>
+      <select id="fZone" onchange="applyFilters()">
+        <option value="">Tutte le zone</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl">Tipologia</label>
+      <select id="fType" onchange="applyFilters()">
+        <option value="">Tutte</option>
+        <option>Appartamento</option>
+        <option>Villa/Casa</option>
+        <option>Stanza</option>
+        <option>Ufficio</option>
+        <option>Negozio</option>
+        <option>Capannone</option>
+        <option>Laboratorio</option>
+        <option>Magazzino</option>
+        <option>Palazzo</option>
+        <option>Hotel</option>
+        <option>Terreno</option>
+        <option>Garage</option>
+        <option>NPL</option>
+        <option>Asta</option>
+        <option>Attività</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl">Locali</label>
+      <select id="fRooms" onchange="applyFilters()">
+        <option value="">Qualsiasi</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5+">5 o +</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl">Agente</label>
+      <select id="fAgent" onchange="applyFilters()">
+        <option value="">Tutti gli agenti</option>
+      </select>
+    </div>
+    <hr class="divider">
+    <div class="fg">
+      <label class="fl">Prezzo min (€)</label>
+      <input type="number" id="fPrMin" placeholder="0" oninput="applyFilters()">
+    </div>
+    <div class="fg">
+      <label class="fl">Prezzo max (€)</label>
+      <input type="number" id="fPrMax" placeholder="∞" oninput="applyFilters()">
+    </div>
+    <button class="btn btn-outline btn-sm" style="width:100%;margin-top:.25rem" onclick="resetFilters()">✕ Azzera filtri</button>
+  </div>
+
+  <div class="prop-list" id="propList"></div>
+  <div class="stats-bar">
+    <span>Totale: <strong id="cAll">0</strong></span>
+    <span>·</span>
+    <span>Risultati: <strong id="cFilt">0</strong></span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="mainArea">
+  <div class="welcome">
+    <div class="welcome-logo">⌂</div>
+    <h2>International Real Estate</h2>
+    <p>Seleziona un immobile dalla lista o aggiungine uno nuovo con il pulsante in alto a destra.</p>
+  </div>
+</div>
+
+</div><!-- /body -->
+</div><!-- /shell -->
+
+<!-- ══════════════════════════════════════════════════════
+     MODAL: AGGIUNGI / MODIFICA IMMOBILE
+══════════════════════════════════════════════════════ -->
+<div class="overlay" id="propModal">
+<div class="modal">
+  <div class="modal-title" id="propModalTitle">Nuovo Immobile</div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('tab-base',this)">Dati Base</div>
+    <div class="tab" onclick="switchTab('tab-char',this)">Caratteristiche</div>
+    <div class="tab" onclick="switchTab('tab-media',this)">Media</div>
+    <div class="tab" onclick="switchTab('tab-agent',this)">Agente</div>
+    <div class="tab" onclick="switchTab('tab-priv',this)">🔒 Note Riservate</div>
+  </div>
+
+  <!-- TAB: DATI BASE -->
+  <div class="tab-pane active" id="tab-base">
+    <div class="form-grid">
+      <div class="fg">
+        <label>Affare *</label>
+        <select id="fDealType">
+          <option>Vendita</option>
+          <option>Affitto</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Tipologia *</label>
+        <select id="fPropType">
+          <option>Appartamento</option><option>Villa/Casa</option><option>Stanza</option>
+          <option>Ufficio</option><option>Negozio</option><option>Capannone</option>
+          <option>Laboratorio</option><option>Magazzino</option><option>Palazzo</option>
+          <option>Hotel</option><option>Terreno</option><option>Garage</option>
+          <option>NPL</option><option>Asta</option><option>Attività</option>
+        </select>
+      </div>
+      <div class="fg full">
+        <label>Titolo / Nome immobile *</label>
+        <input type="text" id="fTitle" placeholder="Es. Elegante appartamento centro storico">
+      </div>
+      <div class="fg">
+        <label>Nazione *</label>
+        <input type="text" id="fNat" placeholder="Es. Italia" list="dlNations">
+        <datalist id="dlNations"></datalist>
+      </div>
+      <div class="fg">
+        <label>Città *</label>
+        <input type="text" id="fCity2" placeholder="Es. Milano" list="dlCities">
+        <datalist id="dlCities"></datalist>
+      </div>
+      <div class="fg">
+        <label>Zona / Quartiere</label>
+        <input type="text" id="fZone2" placeholder="Es. Brera" list="dlZones">
+        <datalist id="dlZones"></datalist>
+      </div>
+      <div class="fg full">
+        <label>Indirizzo (per mappa)</label>
+        <input type="text" id="fAddr" placeholder="Via, numero civico, città, nazione">
+      </div>
+      <div class="fg">
+        <label>Prezzo (€) *</label>
+        <input type="number" id="fPrice" placeholder="0">
+      </div>
+      <div class="fg">
+        <label>Superficie (m²)</label>
+        <input type="number" id="fSurf" placeholder="0">
+      </div>
+      <div class="fg">
+        <label>Numero locali</label>
+        <input type="text" id="fRoomsN" placeholder="Es. 3">
+      </div>
+      <div class="fg">
+        <label>Camere da letto</label>
+        <input type="text" id="fBeds" placeholder="Es. 2">
+      </div>
+      <div class="fg">
+        <label>Bagni</label>
+        <input type="text" id="fBaths" placeholder="Es. 1">
+      </div>
+      <div class="fg">
+        <label>Garage</label>
+        <input type="text" id="fGarage" placeholder="Es. 1 posto">
+      </div>
+      <div class="fg">
+        <label>Giardino / Terreno (m²)</label>
+        <input type="text" id="fGarden" placeholder="Es. 200 m²">
+      </div>
+      <div class="fg full">
+        <label>Descrizione</label>
+        <textarea id="fDesc" rows="4" placeholder="Descrizione dettagliata dell'immobile..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: CARATTERISTICHE -->
+  <div class="tab-pane" id="tab-char">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:.75rem">Seleziona le caratteristiche presenti. Puoi aggiungere voci personalizzate (verranno ordinate alfabeticamente).</p>
+    <div class="cb-grid" id="featGrid"></div>
+    <hr class="divider">
+    <div style="display:flex;gap:8px;margin-top:.5rem">
+      <input type="text" id="newFeatInput" placeholder="Nuova caratteristica..." style="flex:1;padding:7px 10px">
+      <button class="btn btn-outline" onclick="addCustomFeature()">+ Aggiungi</button>
+    </div>
+  </div>
+
+  <!-- TAB: MEDIA -->
+  <div class="tab-pane" id="tab-media">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:.75rem">Carica immagini, video o PDF. La prima immagine sarà quella principale. Trascina per riordinare.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
+      <button class="btn btn-outline" onclick="triggerMedia('image/*','img')">🖼 Immagini</button>
+      <button class="btn btn-outline" onclick="triggerMedia('video/*','vid')">🎬 Video</button>
+      <button class="btn btn-outline" onclick="triggerMedia('application/pdf','pdf')">📄 PDF</button>
+    </div>
+    <input type="file" id="mediaInput" style="display:none" multiple onchange="handleMediaUpload(event)">
+    <div id="mediaPreviewGrid" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+  </div>
+
+  <!-- TAB: AGENTE -->
+  <div class="tab-pane" id="tab-agent">
+    <div class="fg" style="margin-bottom:1rem">
+      <label>Assegna agente</label>
+      <select id="fAgentSel">
+        <option value="">— Nessun agente —</option>
+      </select>
+    </div>
+    <p style="font-size:12px;color:var(--muted)">Il nome dell'agente non viene mostrato nelle schede condivise esternamente.<br>Per gestire gli agenti usa il pulsante <strong>Agenti</strong> nella barra superiore.</p>
+  </div>
+
+  <!-- TAB: NOTE RISERVATE -->
+  <div class="tab-pane" id="tab-priv">
+    <div class="priv-badge"><strong>🔒 Sezione Riservata</strong>Queste note NON appaiono nelle schede condivise via link, WhatsApp o PDF.</div>
+    <div class="fg">
+      <label>Note riservate (uso interno)</label>
+      <textarea id="fPrivNote" rows="6" placeholder="Informazioni confidenziali, trattative, contatti proprietario..."></textarea>
+    </div>
+  </div>
+
+  <div class="modal-foot">
+    <button class="btn btn-outline" onclick="closePropModal()">Annulla</button>
+    <button class="btn btn-gold" onclick="saveProperty()">💾 Salva Immobile</button>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MODAL: AGENTI
+══════════════════════════════════════════════════════ -->
+<div class="overlay" id="agentModal">
+<div class="modal modal-sm">
+  <div class="modal-title">Gestione Agenti</div>
+  <div class="search-wrap" style="margin-bottom:1rem">
+    <span class="search-ico" style="color:var(--muted)">🔍</span>
+    <input type="text" id="agentSearch" placeholder="Cerca agente..." oninput="renderAgentList()" style="width:100%;padding:8px 10px 8px 32px;background:var(--off)">
+  </div>
+  <div class="agent-list" id="agentListEl"></div>
+  <hr class="divider">
+  <div style="background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:1rem">
+    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.75rem" id="agentFormTitle">Nuovo Agente</div>
+    <div class="form-grid" style="gap:10px">
+      <div class="fg full"><label>Nome completo *</label><input type="text" id="aName" placeholder="Mario Rossi"></div>
+      <div class="fg"><label>Telefono</label><input type="tel" id="aPhone" placeholder="+39 ..."></div>
+      <div class="fg"><label>Email</label><input type="email" id="aEmail" placeholder="mail@..."></div>
+      <div class="fg full"><label>Sito web</label><input type="text" id="aSite" placeholder="https://..."></div>
+    </div>
+    <input type="hidden" id="aEditId">
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:.75rem">
+      <button class="btn btn-outline btn-sm" onclick="resetAgentForm()">Annulla</button>
+      <button class="btn btn-gold btn-sm" onclick="saveAgent()">Salva Agente</button>
+    </div>
+  </div>
+  <div class="modal-foot" style="margin-top:.75rem">
+    <button class="btn btn-outline" onclick="closeAgents()">Chiudi</button>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MODAL: IMPORT / EXPORT
+══════════════════════════════════════════════════════ -->
+<div class="overlay" id="ioModal">
+<div class="modal modal-sm">
+  <div class="modal-title">Import / Export</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.7">I dati vengono salvati nel browser. Esporta per creare un backup; importa per ripristinare. Le immagini sono incluse nel file (potrebbe essere grande).</p>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1rem">
+    <button class="btn btn-gold" onclick="exportData()">⬇ Esporta JSON (backup completo)</button>
+    <button class="btn btn-outline" onclick="document.getElementById('importFile').click()">📂 Importa JSON</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+  </div>
+  <div class="modal-foot"><button class="btn btn-outline" onclick="closeIO()">Chiudi</button></div>
+</div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════
+let properties = [];
+let agents = [];
+let selectedId = null;
+let editingPropId = null;
+let editingAgentId = null;
+let currentGalIdx = 0;
+let currentMediaAccept = '';
+let currentMediaType = '';
+
+// Default features (sorted alpha)
+const DEFAULT_FEATURES = [
+  'Arredato','Box','Giardino privato','Loft','Nuda proprietà',
+  'Occupato da inquilino','Open space','Piscina','Posto auto',
+  'Semiarredato','Seminterrato','Terrazzo','Terreno agricolo',
+  'Terreno edificabile','Vuoto di arredi'
+];
+let allFeatures = [...DEFAULT_FEATURES];
+
+// ════════════════════════════════════════════════════════
+// STORAGE
+// ════════════════════════════════════════════════════════
+function save(){
+  try{
+    localStorage.setItem('ire_props',JSON.stringify(properties));
+    localStorage.setItem('ire_agents',JSON.stringify(agents));
+    localStorage.setItem('ire_features',JSON.stringify(allFeatures));
+  }catch(e){console.warn('Storage error',e)}
+}
+function load(){
+  try{
+    const p=localStorage.getItem('ire_props');
+    const a=localStorage.getItem('ire_agents');
+    const f=localStorage.getItem('ire_features');
+    if(p) properties=JSON.parse(p);
+    if(a) agents=JSON.parse(a);
+    if(f) allFeatures=JSON.parse(f);
+  }catch(e){}
+  if(!Array.isArray(properties)) properties=[];
+  if(!Array.isArray(agents)) agents=[];
+  if(!Array.isArray(allFeatures)) allFeatures=[...DEFAULT_FEATURES];
+}
+
+// ════════════════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════════════════
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function fmtPrice(n){if(!n&&n!==0)return'—';return'€ '+Number(n).toLocaleString('it-IT')}
+function initials(name){if(!name)return'?';return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+function sortAlpha(arr){return [...arr].sort((a,b)=>a.localeCompare(b,'it'))}
+function roomsVal(v){
+  if(!v)return null;
+  const n=parseInt(v);
+  if(isNaN(n))return null;
+  return n>=5?'5+':String(n);
+}
+
+// ════════════════════════════════════════════════════════
+// FILTERS & LIST
+// ════════════════════════════════════════════════════════
+function populateNationFilter(){
+  const sel=document.getElementById('fNation');
+  const cur=sel.value;
+  const nats=sortAlpha([...new Set(properties.map(p=>p.nation).filter(Boolean))]);
+  sel.innerHTML='<option value="">Tutte le nazioni</option>'+nats.map(n=>`<option${n===cur?' selected':''}>${n}</option>`).join('');
+  // datalist
+  document.getElementById('dlNations').innerHTML=nats.map(n=>`<option value="${n}">`).join('');
+  syncCityFilter();
+}
+function syncCityFilter(){
+  const nat=document.getElementById('fNation').value;
+  const sel=document.getElementById('fCity');
+  const cur=sel.value;
+  const cities=sortAlpha([...new Set(properties.filter(p=>!nat||p.nation===nat).map(p=>p.city).filter(Boolean))]);
+  sel.innerHTML='<option value="">Tutte le città</option>'+cities.map(c=>`<option${c===cur?' selected':''}>${c}</option>`).join('');
+  document.getElementById('dlCities').innerHTML=cities.map(c=>`<option value="${c}">`).join('');
+  syncZoneFilter();
+}
+function syncZoneFilter(){
+  const nat=document.getElementById('fNation').value;
+  const city=document.getElementById('fCity').value;
+  const sel=document.getElementById('fZone');
+  const cur=sel.value;
+  const zones=sortAlpha([...new Set(properties.filter(p=>(!nat||p.nation===nat)&&(!city||p.city===city)).map(p=>p.zone).filter(Boolean))]);
+  sel.innerHTML='<option value="">Tutte le zone</option>'+zones.map(z=>`<option${z===cur?' selected':''}>${z}</option>`).join('');
+  document.getElementById('dlZones').innerHTML=zones.map(z=>`<option value="${z}">`).join('');
+}
+function populateAgentFilter(){
+  const sorted=sortAlpha(agents.map(a=>a.name));
+  const sel=document.getElementById('fAgent');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">Tutti gli agenti</option>'+sorted.map(n=>{const a=agents.find(x=>x.name===n);return`<option value="${a.id}"${a.id===cur?' selected':''}>${n}</option>`;}).join('');
+  // also agent select in modal
+  const ms=document.getElementById('fAgentSel');
+  const mc=ms.value;
+  ms.innerHTML='<option value="">— Nessun agente —</option>'+sorted.map(n=>{const a=agents.find(x=>x.name===n);return`<option value="${a.id}"${a.id===mc?' selected':''}>${n}</option>`;}).join('');
+}
+
+function applyFilters(){
+  const q=document.getElementById('searchQ').value.toLowerCase().trim();
+  const deal=document.getElementById('fDeal').value;
+  const nat=document.getElementById('fNation').value;
+  const city=document.getElementById('fCity').value;
+  const zone=document.getElementById('fZone').value;
+  const type=document.getElementById('fType').value;
+  const rooms=document.getElementById('fRooms').value;
+  const agent=document.getElementById('fAgent').value;
+  const prMin=parseFloat(document.getElementById('fPrMin').value)||0;
+  const prMax=parseFloat(document.getElementById('fPrMax').value)||Infinity;
+
+  let filtered=properties.filter(p=>{
+    if(deal&&p.deal!==deal)return false;
+    if(nat&&p.nation!==nat)return false;
+    if(city&&p.city!==city)return false;
+    if(zone&&p.zone!==zone)return false;
+    if(type&&p.type!==type)return false;
+    if(agent&&p.agentId!==agent)return false;
+    if(p.price&&(p.price<prMin||p.price>prMax))return false;
+    if(rooms){
+      const rv=roomsVal(p.rooms);
+      if(rooms==='5+'){if(rv!=='5+')return false;}
+      else{if(rv!==rooms)return false;}
+    }
+    if(q){
+      const h=[p.title,p.city,p.nation,p.zone,p.address,p.desc,p.type].join(' ').toLowerCase();
+      if(!h.includes(q))return false;
+    }
+    return true;
+  });
+
+  // Sort by price ascending (nulls last)
+  filtered.sort((a,b)=>{
+    if(!a.price&&a.price!==0)return 1;
+    if(!b.price&&b.price!==0)return-1;
+    return a.price-b.price;
+  });
+
+  renderList(filtered);
+  document.getElementById('cAll').textContent=properties.length;
+  document.getElementById('cFilt').textContent=filtered.length;
+}
+
+function resetFilters(){
+  ['searchQ','fPrMin','fPrMax'].forEach(id=>document.getElementById(id).value='');
+  ['fDeal','fNation','fCity','fZone','fType','fRooms','fAgent'].forEach(id=>document.getElementById(id).value='');
+  syncCityFilter();applyFilters();
+}
+
+function renderList(list){
+  const el=document.getElementById('propList');
+  if(!list||!list.length){
+    el.innerHTML='<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:13px">Nessun immobile trovato</div>';
+    return;
+  }
+  el.innerHTML=list.map(p=>{
+    const active=p.id===selectedId?' active':'';
+    const loc=[p.zone,p.city,p.nation].filter(Boolean).join(' · ');
+    const tagC=p.deal==='Affitto'?'tag-a':'tag-v';
+    return`<div class="pcard${active}" onclick="selectProp('${p.id}')">
+      <div class="ptag ${tagC}">${p.deal||''}</div>
+      <div class="pn">${p.title||'(senza titolo)'}</div>
+      <div class="pl">${loc||'—'} · ${p.type||''}</div>
+      <div class="pp">${fmtPrice(p.price)}${p.deal==='Affitto'?'<small style="font-size:10px;font-family:Jost,sans-serif;font-weight:400">/mese</small>':''}</div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════
+// DETAIL VIEW
+// ════════════════════════════════════════════════════════
+function selectProp(id){
+  selectedId=id;
+  const p=properties.find(x=>x.id===id);
+  if(!p)return;
+  applyFilters(); // refresh active state
+  renderDetail(p);
+}
+
+function renderDetail(p){
+  const main=document.getElementById('mainArea');
+  const agent=agents.find(a=>a.id===p.agentId);
+  const media=p.media||[];
+  const images=media.filter(m=>m.mtype==='img');
+  const loc=[p.address,p.zone,p.city,p.nation].filter(Boolean).join(', ');
+  const mapUrl=p.address?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.address)}`:'';
+
+  // Gallery
+  let galMainHtml='';
+  if(media.length>0){
+    const first=media[0];
+    if(first.mtype==='img') galMainHtml=`<img id="galImg" src="${first.data}" alt="">`;
+    else if(first.mtype==='vid') galMainHtml=`<video id="galImg" src="${first.data}" controls></video>`;
+    else galMainHtml=`<div class="gal-empty"><span>📄</span>PDF: ${first.name}</div>`;
+  }else{
+    galMainHtml=`<div class="gal-empty"><span>🏠</span>Nessun media</div>`;
+  }
+
+  const thumbsHtml=media.map((m,i)=>{
+    const typeLabel=m.mtype==='img'?'IMG':m.mtype==='vid'?'▶':'PDF';
+    const thumb=m.mtype==='img'?`<img src="${m.data}" alt="">`:`<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:22px">${m.mtype==='vid'?'🎬':'📄'}</div>`;
+    return`<div class="gthumb${i===0?' active':''}" id="gthumb-${i}" onclick="switchMedia(${i},'${p.id}')">${thumb}<span class="gthumb-type">${typeLabel}</span></div>`;
+  }).join('')+`<div class="gadd" onclick="quickAddMedia('${p.id}')">＋</div>`;
+
+  // Features
+  const feats=(p.features||[]).filter(Boolean);
+  const featHtml=feats.length?feats.map(f=>`<span class="feat-chip">✓ ${f}</span>`).join(''):'<span style="color:var(--muted);font-size:13px">—</span>';
+
+  // Info cards
+  const infos=[
+    {l:'Superficie',v:p.surface?p.surface+' m²':'—'},
+    {l:'Locali',v:p.rooms||'—'},
+    {l:'Camere da letto',v:p.beds||'—'},
+    {l:'Bagni',v:p.baths||'—'},
+    {l:'Garage',v:p.garage||'—'},
+    {l:'Giardino/Terreno',v:p.garden||'—'},
+    {l:'Tipologia',v:p.type||'—'},
+    {l:'Inserito il',v:p.createdAt?new Date(p.createdAt).toLocaleDateString('it-IT'):'—'},
+  ];
+
+  // Agent section (hidden in shared view)
+  const agentHtml=agent?`<div class="agent-chip internal-only">
+    <div class="av">${initials(agent.name)}</div>
+    <div class="ai"><div class="an">${agent.name}</div><div class="ac">${[agent.phone,agent.email].filter(Boolean).join(' · ')}</div></div>
+  </div>`:'';
+
+  main.innerHTML=`<div class="detail">
+    <div class="detail-top">
+      <div class="detail-hl">
+        <div class="dtitle">${p.title||'(senza titolo)'}</div>
+        <div class="dloc">${loc||'—'}</div>
+        ${mapUrl?`<a class="map-link" href="${mapUrl}" target="_blank">🗺 Vedi su Google Maps</a>`:''}
+      </div>
+      <div class="dacts">
+        <button class="btn btn-outline btn-sm" onclick="openEditProperty('${p.id}')">✎ Modifica</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProp('${p.id}')">🗑</button>
+        <button class="btn btn-outline btn-sm" onclick="shareWhatsApp('${p.id}')">📲 WA</button>
+        <button class="btn btn-outline btn-sm" onclick="shareEmail('${p.id}')">✉ Email</button>
+        <button class="btn btn-outline btn-sm" onclick="printPDF('${p.id}')">📄 PDF</button>
+      </div>
+    </div>
+
+    <div class="dprice">${fmtPrice(p.price)}${p.deal==='Affitto'?'<small> / mese</small>':''}</div>
+
+    <div class="gal">
+      <div class="gal-main" id="galMain">
+        ${galMainHtml}
+        ${media.length>1?`<div class="gal-nav"><button onclick="galPrev('${p.id}')">‹</button><button onclick="galNext('${p.id}')">›</button></div>`:''}
+      </div>
+      <div class="gal-thumbs">${thumbsHtml}</div>
+    </div>
+
+    <div class="info-grid">${infos.map(i=>`<div class="icard"><div class="lbl">${i.l}</div><div class="val">${i.v}</div></div>`).join('')}</div>
+
+    ${feats.length?`<div class="sec"><div class="sec-title">Caratteristiche</div><div class="feat-list">${featHtml}</div></div>`:''}
+
+    ${p.desc?`<div class="sec"><div class="sec-title">Descrizione</div><div class="notes-box">${p.desc}</div></div>`:''}
+
+    ${agentHtml}
+
+    ${p.privNote?`<div class="sec internal-only"><div class="priv-badge"><strong>🔒 Note Riservate (uso interno)</strong>${p.privNote}</div></div>`:''}
+  </div>`;
+
+  currentGalIdx=0;
+}
+
+function switchMedia(idx,propId){
+  const p=properties.find(x=>x.id===propId);
+  if(!p)return;
+  currentGalIdx=idx;
+  const media=p.media||[];
+  const m=media[idx];
+  const main=document.getElementById('galMain');
+  if(!main)return;
+  let content='';
+  if(m.mtype==='img') content=`<img id="galImg" src="${m.data}" alt="">`;
+  else if(m.mtype==='vid') content=`<video id="galImg" src="${m.data}" controls style="width:100%;height:100%;object-fit:cover"></video>`;
+  else content=`<div class="gal-empty"><span>📄</span><br>PDF: ${m.name}<br><a href="${m.data}" download="${m.name}" style="color:var(--gold)">Scarica</a></div>`;
+  // preserve nav buttons
+  const nav=media.length>1?`<div class="gal-nav"><button onclick="galPrev('${propId}')">‹</button><button onclick="galNext('${propId}')">›</button></div>`:'';
+  main.innerHTML=content+nav;
+  document.querySelectorAll('.gthumb').forEach((t,i)=>t.classList.toggle('active',i===idx));
+}
+
+function galPrev(propId){
+  const p=properties.find(x=>x.id===propId);
+  if(!p)return;
+  const len=(p.media||[]).length;
+  switchMedia((currentGalIdx-1+len)%len,propId);
+}
+function galNext(propId){
+  const p=properties.find(x=>x.id===propId);
+  if(!p)return;
+  const len=(p.media||[]).length;
+  switchMedia((currentGalIdx+1)%len,propId);
+}
+
+function quickAddMedia(propId){
+  editingPropId=propId;
+  currentMediaAccept='image/*,video/*,application/pdf';
+  currentMediaType='auto';
+  document.getElementById('mediaInput').accept=currentMediaAccept;
+  document.getElementById('mediaInput').click();
+  document.getElementById('mediaInput').onchange=function(e){
+    handleMediaUploadDirect(e,propId);
+  };
+}
+
+function handleMediaUploadDirect(e,propId){
+  const p=properties.find(x=>x.id===propId);
+  if(!p)return;
+  if(!p.media)p.media=[];
+  const files=Array.from(e.target.files);
+  let done=0;
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const mtype=file.type.startsWith('image')?'img':file.type.startsWith('video')?'vid':'pdf';
+      p.media.push({id:uid(),mtype,name:file.name,data:ev.target.result});
+      done++;
+      if(done===files.length){save();selectProp(propId);}
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value='';
+}
+
+// ════════════════════════════════════════════════════════
+// PROPERTY MODAL
+// ════════════════════════════════════════════════════════
+let modalMedia=[];
+
+function openAddProperty(){
+  editingPropId=null;
+  modalMedia=[];
+  document.getElementById('propModalTitle').textContent='Nuovo Immobile';
+  clearPropForm();
+  buildFeatGrid(null);
+  renderMediaPreview();
+  populateAgentFilter();
+  switchTab('tab-base',document.querySelector('.tab'));
+  document.getElementById('propModal').classList.add('open');
+}
+
+function openEditProperty(id){
+  const p=properties.find(x=>x.id===id);
+  if(!p)return;
+  editingPropId=id;
+  modalMedia=JSON.parse(JSON.stringify(p.media||[]));
+  document.getElementById('propModalTitle').textContent='Modifica Immobile';
+  fillPropForm(p);
+  buildFeatGrid(p.features||[]);
+  renderMediaPreview();
+  populateAgentFilter();
+  document.getElementById('fAgentSel').value=p.agentId||'';
+  switchTab('tab-base',document.querySelector('.tab'));
+  document.getElementById('propModal').classList.add('open');
+}
+
+function closePropModal(){
+  document.getElementById('propModal').classList.remove('open');
+  editingPropId=null;
+  modalMedia=[];
+}
+
+function clearPropForm(){
+  ['fTitle','fNat','fCity2','fZone2','fAddr','fPrice','fSurf',
+   'fRoomsN','fBeds','fBaths','fGarage','fGarden','fDesc','fPrivNote'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+  document.getElementById('fDealType').value='Vendita';
+  document.getElementById('fPropType').value='Appartamento';
+  document.getElementById('fAgentSel').value='';
+}
+
+function fillPropForm(p){
+  document.getElementById('fTitle').value=p.title||'';
+  document.getElementById('fNat').value=p.nation||'';
+  document.getElementById('fCity2').value=p.city||'';
+  document.getElementById('fZone2').value=p.zone||'';
+  document.getElementById('fAddr').value=p.address||'';
+  document.getElementById('fDealType').value=p.deal||'Vendita';
+  document.getElementById('fPropType').value=p.type||'Appartamento';
+  document.getElementById('fPrice').value=p.price||'';
+  document.getElementById('fSurf').value=p.surface||'';
+  document.getElementById('fRoomsN').value=p.rooms||'';
+  document.getElementById('fBeds').value=p.beds||'';
+  document.getElementById('fBaths').value=p.baths||'';
+  document.getElementById('fGarage').value=p.garage||'';
+  document.getElementById('fGarden').value=p.garden||'';
+  document.getElementById('fDesc').value=p.desc||'';
+  document.getElementById('fPrivNote').value=p.privNote||'';
+}
+
+function buildFeatGrid(selected){
+  const grid=document.getElementById('featGrid');
+  const sorted=sortAlpha(allFeatures);
+  grid.innerHTML=sorted.map(f=>{
+    const chk=selected&&selected.includes(f)?'checked':'';
+    return`<label class="cb-item"><input type="checkbox" value="${f}" ${chk}>${f}</label>`;
+  }).join('');
+}
+
+function addCustomFeature(){
+  const inp=document.getElementById('newFeatInput');
+  const val=inp.value.trim();
+  if(!val)return;
+  if(!allFeatures.includes(val)) allFeatures.push(val);
+  buildFeatGrid(getCheckedFeatures().concat([val]));
+  inp.value='';
+}
+
+function getCheckedFeatures(){
+  return [...document.querySelectorAll('#featGrid input:checked')].map(cb=>cb.value);
+}
+
+function saveProperty(){
+  const title=document.getElementById('fTitle').value.trim();
+  if(!title){alert('Inserisci almeno il titolo.');return;}
+
+  const data={
+    title,
+    nation:document.getElementById('fNat').value.trim(),
+    city:document.getElementById('fCity2').value.trim(),
+    zone:document.getElementById('fZone2').value.trim(),
+    address:document.getElementById('fAddr').value.trim(),
+    deal:document.getElementById('fDealType').value,
+    type:document.getElementById('fPropType').value,
+    price:parseFloat(document.getElementById('fPrice').value)||null,
+    surface:parseFloat(document.getElementById('fSurf').value)||null,
+    rooms:document.getElementById('fRoomsN').value.trim(),
+    beds:document.getElementById('fBeds').value.trim(),
+    baths:document.getElementById('fBaths').value.trim(),
+    garage:document.getElementById('fGarage').value.trim(),
+    garden:document.getElementById('fGarden').value.trim(),
+    desc:document.getElementById('fDesc').value.trim(),
+    privNote:document.getElementById('fPrivNote').value.trim(),
+    features:getCheckedFeatures(),
+    agentId:document.getElementById('fAgentSel').value||null,
+    media:modalMedia,
+  };
+
+  if(editingPropId){
+    const idx=properties.findIndex(x=>x.id===editingPropId);
+    if(idx>=0) properties[idx]={...properties[idx],...data};
+    selectedId=editingPropId;
+  }else{
+    const np={id:uid(),createdAt:Date.now(),...data};
+    properties.unshift(np);
+    selectedId=np.id;
+  }
+  save();
+  closePropModal();
+  refreshAll();
+  const p=properties.find(x=>x.id===selectedId);
+  if(p) renderDetail(p);
+}
+
+function deleteProp(id){
+  if(!confirm('Eliminare questo immobile?'))return;
+  properties=properties.filter(x=>x.id!==id);
+  selectedId=null;
+  save();refreshAll();
+  document.getElementById('mainArea').innerHTML=`<div class="welcome"><div class="welcome-logo">⌂</div><h2>Immobile eliminato</h2></div>`;
+}
+
+// ════════════════════════════════════════════════════════
+// MEDIA UPLOAD (in modal)
+// ════════════════════════════════════════════════════════
+function triggerMedia(accept,mtype){
+  currentMediaAccept=accept;
+  currentMediaType=mtype;
+  const inp=document.getElementById('mediaInput');
+  inp.accept=accept;
+  inp.onchange=handleMediaUpload;
+  inp.click();
+}
+
+function handleMediaUpload(e){
+  const files=Array.from(e.target.files);
+  let done=0;
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const mt=file.type.startsWith('image')?'img':file.type.startsWith('video')?'vid':'pdf';
+      modalMedia.push({id:uid(),mtype:mt,name:file.name,data:ev.target.result});
+      done++;
+      if(done===files.length) renderMediaPreview();
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value='';
+}
+
+function renderMediaPreview(){
+  const grid=document.getElementById('mediaPreviewGrid');
+  if(!grid)return;
+  grid.innerHTML=modalMedia.map((m,i)=>{
+    let thumb='';
+    if(m.mtype==='img') thumb=`<img src="${m.data}" style="width:100%;height:100%;object-fit:cover;border-radius:3px">`;
+    else if(m.mtype==='vid') thumb=`<div style="display:flex;align-items:center;justify-content:center;width:76px;height:58px;font-size:28px;background:#f0f0f0;border-radius:4px">🎬</div>`;
+    else thumb=`<div style="display:flex;align-items:center;justify-content:center;width:76px;height:58px;font-size:28px;background:#f0f0f0;border-radius:4px">📄</div>`;
+    return`<div style="position:relative;width:76px;height:58px">
+      ${thumb}
+      <button onclick="removeMedia(${i})" style="position:absolute;top:-5px;right:-5px;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
+    </div>`;
+  }).join('');
+}
+
+function removeMedia(idx){
+  modalMedia.splice(idx,1);
+  renderMediaPreview();
+}
+
+// ════════════════════════════════════════════════════════
+// AGENTS
+// ════════════════════════════════════════════════════════
+function openAgents(){
+  renderAgentList();
+  resetAgentForm();
+  document.getElementById('agentModal').classList.add('open');
+}
+function closeAgents(){document.getElementById('agentModal').classList.remove('open')}
+
+function renderAgentList(){
+  const q=(document.getElementById('agentSearch').value||'').toLowerCase();
+  const sorted=sortAlpha(agents.map(a=>a.name));
+  const filtered=sorted.filter(n=>n.toLowerCase().includes(q));
+  const el=document.getElementById('agentListEl');
+  if(!filtered.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:.5rem">Nessun agente</div>';return;}
+  el.innerHTML=filtered.map(n=>{
+    const a=agents.find(x=>x.name===n);
+    const count=properties.filter(p=>p.agentId===a.id).length;
+    return`<div class="agent-row">
+      <div class="av">${initials(a.name)}</div>
+      <div class="ai">
+        <div class="an">${a.name}</div>
+        <div class="ac">${[a.phone,a.email].filter(Boolean).join(' · ')}</div>
+      </div>
+      <div class="aa">
+        <button class="btn btn-outline btn-sm" onclick="filterByAgent('${a.id}')">🏠 ${count}</button>
+        <button class="btn btn-outline btn-sm" onclick="editAgent('${a.id}')">✎</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteAgent('${a.id}')">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function saveAgent(){
+  const name=document.getElementById('aName').value.trim();
+  if(!name){alert('Inserisci il nome.');return;}
+  const data={name,phone:document.getElementById('aPhone').value.trim(),email:document.getElementById('aEmail').value.trim(),site:document.getElementById('aSite').value.trim()};
+  const eid=document.getElementById('aEditId').value;
+  if(eid){
+    const idx=agents.findIndex(a=>a.id===eid);
+    if(idx>=0) agents[idx]={...agents[idx],...data};
+  }else{
+    agents.push({id:uid(),...data});
+  }
+  save();populateAgentFilter();renderAgentList();resetAgentForm();
+}
+
+function editAgent(id){
+  const a=agents.find(x=>x.id===id);
+  if(!a)return;
+  document.getElementById('aName').value=a.name;
+  document.getElementById('aPhone').value=a.phone||'';
+  document.getElementById('aEmail').value=a.email||'';
+  document.getElementById('aSite').value=a.site||'';
+  document.getElementById('aEditId').value=a.id;
+  document.getElementById('agentFormTitle').textContent='Modifica Agente';
+}
+
+function deleteAgent(id){
+  if(!confirm('Eliminare agente?'))return;
+  agents=agents.filter(a=>a.id!==id);
+  // unassign from properties
+  properties.forEach(p=>{if(p.agentId===id)p.agentId=null;});
+  save();populateAgentFilter();renderAgentList();
+}
+
+function resetAgentForm(){
+  ['aName','aPhone','aEmail','aSite','aEditId'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('agentFormTitle').textContent='Nuovo Agente';
+}
+
+function filterByAgent(agentId){
+  closeAgents();
+  document.getElementById('fAgent').value=agentId;
+  applyFilters();
+}
+
+// ════════════════════════════════════════════════════════
+// SHARE / EXPORT
+// ════════════════════════════════════════════════════════
+function buildPublicCard(p){
+  const media=p.media||[];
+  const agent=agents.find(a=>a.id===p.agentId);
+  const loc=[p.address,p.zone,p.city,p.nation].filter(Boolean).join(', ');
+  const mapUrl=p.address?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.address)}`:'';
+  const feats=(p.features||[]).filter(Boolean);
+  const infos=[
+    ['Tipologia',p.type],['Superficie',p.surface?p.surface+' m²':null],
+    ['Locali',p.rooms],['Camere da letto',p.beds],['Bagni',p.baths],
+    ['Garage',p.garage],['Giardino/Terreno',p.garden],
+  ].filter(([,v])=>v);
+
+  const firstImg=media.find(m=>m.mtype==='img');
+
+  return`<!DOCTYPE html>
+<html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${p.title||'Immobile'} - International Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Jost',sans-serif;background:#F7F3EC;color:#1A2433;font-size:15px}
+.hdr{background:#0D1B2A;padding:16px 24px;color:#C9A84C;font-family:'Playfair Display',serif;font-size:18px}
+.hdr small{display:block;color:rgba(255,255,255,.4);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:900px;margin:0 auto;padding:2rem 1rem}
+.title{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#0D1B2A;margin-bottom:4px}
+.loc{color:#7A8899;font-size:13px;margin-bottom:.5rem}
+.price{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:#8A6E2F;margin-bottom:1.5rem}
+.main-img{width:100%;max-height:420px;object-fit:cover;border-radius:8px;margin-bottom:1rem}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.thumbs img,.thumbs video{width:100px;height:75px;object-fit:cover;border-radius:4px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:1.5rem}
+.icard{background:#fff;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:12px}
+.icard .l{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#7A8899;font-weight:600;margin-bottom:3px}
+.icard .v{font-weight:600}
+.feats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+.feat{background:#fff;border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:4px 12px;font-size:12px}
+.desc{background:#fff;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:16px;line-height:1.75;margin-bottom:1.5rem;white-space:pre-wrap}
+.sec-t{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#0D1B2A;margin-bottom:.75rem;padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,.2)}
+.maplink{display:inline-flex;align-items:center;gap:6px;color:#8A6E2F;font-weight:500;text-decoration:none;font-size:13px;margin-bottom:1.5rem}
+.foot{background:#0D1B2A;color:rgba(255,255,255,.4);font-size:12px;text-align:center;padding:16px;margin-top:3rem}
+</style></head><body>
+<div class="hdr">International Real Estate<small>Property Details</small></div>
+<div class="wrap">
+  <div class="title">${p.title||'Immobile'}</div>
+  <div class="loc">${loc||''}</div>
+  <div class="price">${fmtPrice(p.price)}${p.deal==='Affitto'?' <small style="font-size:14px;font-family:Jost,sans-serif;font-weight:400">/mese</small>':''}</div>
+  ${firstImg?`<img class="main-img" src="${firstImg.data}" alt="">`:''} 
+  ${media.length>1?`<div class="thumbs">${media.filter(m=>m.mtype==='img').map(m=>`<img src="${m.data}" onclick="this.closest('.wrap').querySelector('.main-img').src=this.src">`).join('')}</div>`:''}
+  ${mapUrl?`<a class="maplink" href="${mapUrl}" target="_blank">🗺 Vedi su Google Maps</a>`:''}
+  <div class="grid">${infos.map(([l,v])=>`<div class="icard"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('')}</div>
+  ${feats.length?`<div class="sec-t">Caratteristiche</div><div class="feats">${feats.map(f=>`<span class="feat">✓ ${f}</span>`).join('')}</div>`:''}
+  ${p.desc?`<div class="sec-t">Descrizione</div><div class="desc">${p.desc}</div>`:''}
+</div>
+<div class="foot">International Real Estate — Scheda immobile generata il ${new Date().toLocaleDateString('it-IT')}</div>
+</body></html>`;
+}
+
+function shareWhatsApp(id){
+  const p=properties.find(x=>x.id===id);
+  if(!p)return;
+  const html=buildPublicCard(p);
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const text=`🏠 *${p.title}*\n📍 ${[p.city,p.nation].filter(Boolean).join(', ')}\n💶 ${fmtPrice(p.price)}\n\nScheda completa: ${url}`;
+  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+}
+
+function shareEmail(id){
+  const p=properties.find(x=>x.id===id);
+  if(!p)return;
+  const html=buildPublicCard(p);
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const sub=`Immobile: ${p.title}`;
+  const body=`Gentile Cliente,\n\nLe inviamo la scheda dell'immobile:\n\n🏠 ${p.title}\n📍 ${[p.city,p.nation].filter(Boolean).join(', ')}\n💶 ${fmtPrice(p.price)}\n\nScheda: ${url}\n\nCordiali saluti,\nInternational Real Estate`;
+  window.location.href=`mailto:?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
+}
+
+function printPDF(id){
+  const p=properties.find(x=>x.id===id);
+  if(!p)return;
+  const html=buildPublicCard(p);
+  const win=window.open('','_blank');
+  win.document.write(html);
+  win.document.close();
+  win.onload=()=>{win.print();};
+}
+
+// ════════════════════════════════════════════════════════
+// IMPORT / EXPORT
+// ════════════════════════════════════════════════════════
+function openIOModal(){document.getElementById('ioModal').classList.add('open')}
+function closeIO(){document.getElementById('ioModal').classList.remove('open')}
+
+function exportData(){
+  const blob=new Blob([JSON.stringify({properties,agents,allFeatures},null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='ire-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+}
+
+function importData(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(!confirm(`Importare ${(d.properties||[]).length} immobili e ${(d.agents||[]).length} agenti? I dati attuali verranno sostituiti.`))return;
+      properties=d.properties||[];
+      agents=d.agents||[];
+      allFeatures=d.allFeatures||[...DEFAULT_FEATURES];
+      save();refreshAll();closeIO();
+      alert('Import completato!');
+    }catch(err){alert('File non valido.');}
+  };
+  r.readAsText(file);
+  e.target.value='';
+}
+
+// ════════════════════════════════════════════════════════
+// TAB SWITCHER
+// ════════════════════════════════════════════════════════
+function switchTab(paneId,tabEl){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(paneId).classList.add('active');
+  if(tabEl) tabEl.classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════
+// CLOSE MODAL ON OVERLAY CLICK
+// ════════════════════════════════════════════════════════
+document.querySelectorAll('.overlay').forEach(ov=>{
+  ov.addEventListener('click',function(e){
+    if(e.target===this) this.classList.remove('open');
+  });
+});
+
+// ════════════════════════════════════════════════════════
+// REFRESH ALL
+// ════════════════════════════════════════════════════════
+function refreshAll(){
+  populateNationFilter();
+  populateAgentFilter();
+  applyFilters();
+}
+
+// ════════════════════════════════════════════════════════
+// DEMO DATA
+// ════════════════════════════════════════════════════════
+function loadDemo(){
+  agents=[
+    {id:'ag1',name:'Marco Bianchi',phone:'+39 02 1234567',email:'marco@ire.com',site:'https://ire.com'},
+    {id:'ag2',name:'Sofia Rossi',phone:'+39 06 7654321',email:'sofia@ire.com',site:''},
+    {id:'ag3',name:'Luca Ferrari',phone:'+39 011 9876543',email:'luca@ire.com',site:''},
+  ];
+  properties=[
+    {id:'p1',createdAt:Date.now(),deal:'Vendita',type:'Appartamento',title:'Elegante Appartamento Centro Storico',nation:'Italia',city:'Milano',zone:'Brera',address:'Via Brera 12, Milano, Italia',price:780000,surface:120,rooms:'3',beds:'2',baths:'2',garage:'1',garden:'',desc:'Straordinario appartamento nel cuore di Brera. Soffitti affrescati, parquet originale, doppi servizi. Palazzo d\'epoca con portiere.',features:['Arredato','Terrazzo','Posto auto'],agentId:'ag1',media:[],privNote:'Proprietario disponibile a trattare. Ultima offerta ricevuta: €750.000'},
+    {id:'p2',createdAt:Date.now(),deal:'Vendita',type:'Villa/Casa',title:'Villa con Piscina e Parco',nation:'Italia',city:'Firenze',zone:'Fiesole',address:'Via Vecchia Fiesolana 8, Fiesole, Italia',price:2400000,surface:450,rooms:'8',beds:'5',baths:'4',garage:'3',garden:'3000 m²',desc:'Villa storica con parco e piscina. Vista panoramica su Firenze. Completamente ristrutturata, domotica.',features:['Piscina','Giardino privato','Box'],agentId:'ag2',media:[],privNote:''},
+    {id:'p3',createdAt:Date.now(),deal:'Affitto',type:'Ufficio',title:'Ufficio Moderno Centro Direzionale',nation:'Italia',city:'Roma',zone:'EUR',address:'Viale Europa 55, Roma, Italia',price:4500,surface:200,rooms:'6',beds:'',baths:'3',garage:'2',garden:'',desc:'Ufficio open space in edificio direzionale di classe A. Reception, sala riunioni, parcheggio.',features:['Open space'],agentId:'ag3',media:[],privNote:''},
+    {id:'p4',createdAt:Date.now(),deal:'Vendita',type:'Villa/Casa',title:'Mas Provençal avec Piscine',nation:'Francia',city:'Avignon',zone:'Luberon',address:'Route de Gordes, Ménerbes, France',price:1150000,surface:310,rooms:'7',beds:'4',baths:'3',garage:'',garden:'5000 m²',desc:'Autentico mas provenzale con pietra a vista. Piscina, oliveto, vista sui vigneti. Completamente ristrutturato.',features:['Piscina','Terreno agricolo'],agentId:'ag1',media:[],privNote:''},
+    {id:'p5',createdAt:Date.now(),deal:'Vendita',type:'Appartamento',title:'Attico di Lusso Vista Mare',nation:'Spagna',city:'Barcellona',zone:'Eixample',address:'Carrer de Mallorca 291, Barcelona, España',price:1800000,surface:220,rooms:'4',beds:'3',baths:'3',garage:'2',garden:'80 m² terrazza',desc:'Attico con terrazza panoramica. Vista sulla Sagrada Familia. Finiture pregiare, domotica.',features:['Terrazzo','Box','Posto auto'],agentId:'ag2',media:[],privNote:''},
+  ];
+}
+
+// ════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════
+load();
+if(properties.length===0){
+  loadDemo();
+  save();
+}
+refreshAll();
+</script>
+</body>
+</html>
