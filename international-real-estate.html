@@ -1849,7 +1849,7 @@ async function generateShareLink(){
     if(!binId) throw new Error('No bin ID');
 
     // Build viewer URL — opens the public card page
-    currentShareLink = `https://international-real-estate.netlify.app/?card=${binId}`;
+    currentShareLink = `https://fr-realty.github.io/international-real-estate/international-real-estate.html?card=${binId}`;
     document.getElementById('shareLinkText').textContent = currentShareLink;
     document.getElementById('shareLinkBox').style.display = 'block';
     btn.textContent = '🔄 Rigenera Link';
