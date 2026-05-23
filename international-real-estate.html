@@ -1810,74 +1810,104 @@ function downloadCard(){
 }
 
 // ════════════════════════════════════════════════════════
-// SHARE — LINK UNIVOCO PER SCHEDA
+// SHARE — GITHUB PAGES + OPEN GRAPH
 // ════════════════════════════════════════════════════════
-const SHARE_JSONBIN_KEY = '$2a$10$skPwjZ.Uh.DzntTLeMbKNuob1VhHwEA.qxZHvU8DMtn17hk4OgEwS';
+const GITHUB_TOKEN = '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';
+const GITHUB_OWNER = 'fr-realty';
+const GITHUB_REPO = 'international-real-estate';
+const GITHUB_BRANCH = 'main';
 let currentShareLink = '';
+
+function buildCardHtml(p){
+  const loc = [p.address, p.zone, p.city, p.nation].filter(Boolean).join(', ');
+  const mapUrl = p.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.address)}` : '';
+  const feats = (p.features||[]).filter(Boolean);
+  const media = p.media||[];
+  const firstImg = media.find(m=>m.mtype==='img');
+  const imgUrl = firstImg ? (firstImg.url||firstImg.data||'') : '';
+  const fmtP = n => n ? '€ '+Number(n).toLocaleString('it-IT') : '—';
+  const priceStr = fmtP(p.price) + (p.deal==='Affitto' ? ' /mese' : '');
+  const infos = [
+    ['Tipologia',p.type],['Superficie',p.surface?p.surface+' m²':null],
+    ['Locali',p.rooms],['Camere',p.beds],['Bagni',p.baths],
+    ['Garage',p.garage],['Giardino',p.garden]
+  ].filter(([,v])=>v);
+  return `<!DOCTYPE html>
+<html lang="it"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${p.title||'Immobile'} — International Real Estate</title>
+<meta name="description" content="${priceStr} · ${loc}">
+<meta property="og:title" content="${p.title||'Immobile'}">
+<meta property="og:description" content="${priceStr} · ${loc}">
+<meta property="og:type" content="website">
+${imgUrl?`<meta property="og:image" content="${imgUrl}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">`:''}
+<meta property="og:site_name" content="International Real Estate">
+<meta name="twitter:card" content="summary_large_image">
+${imgUrl?`<meta name="twitter:image" content="${imgUrl}">`:''}
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Jost',sans-serif;background:#F7F3EC;color:#1A2433}.hdr{background:#0D1B2A;padding:16px 24px}.hdr-brand{font-family:'Playfair Display',serif;font-size:18px;color:#C9A84C;letter-spacing:.06em}.hdr-brand small{display:block;color:rgba(255,255,255,.4);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase}.wrap{max-width:900px;margin:0 auto;padding:2rem 1.5rem 4rem}.tag{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}.tag-v{background:rgba(42,122,74,.15);color:#2A7A4A}.tag-a{background:rgba(201,168,76,.2);color:#8A6E2F}.title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#0D1B2A;margin-bottom:4px}.loc{color:#7A8899;font-size:13px;margin-bottom:.5rem}.price{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#8A6E2F;margin-bottom:1.5rem}.main-img{width:100%;max-height:440px;object-fit:cover;border-radius:8px;margin-bottom:10px;display:block}.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}.thumbs img{width:88px;height:66px;object-fit:cover;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:border-color .15s}.thumbs img:hover,.thumbs img.active{border-color:#C9A84C}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}.icard{background:#fff;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:12px}.icard .l{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#7A8899;font-weight:600;margin-bottom:3px}.icard .v{font-weight:600;font-size:15px;color:#1A2433}.feats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}.feat{background:#fff;border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:500}.desc{background:#fff;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:16px;line-height:1.8;margin-bottom:1.5rem;white-space:pre-wrap;font-size:14px}.sec-t{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#0D1B2A;margin-bottom:.75rem;padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,.2)}.maplink{display:inline-flex;align-items:center;gap:6px;color:#8A6E2F;font-weight:500;text-decoration:none;font-size:13px;margin-bottom:1.5rem}.foot{background:#0D1B2A;color:rgba(255,255,255,.4);font-size:12px;text-align:center;padding:20px;margin-top:3rem}@media(max-width:600px){.title{font-size:20px}.price{font-size:24px}.grid{grid-template-columns:1fr 1fr}}</style>
+</head><body>
+<div class="hdr"><div class="hdr-brand">International Real Estate<small>Property Details</small></div></div>
+<div class="wrap">
+<div class="tag ${p.deal==='Affitto'?'tag-a':'tag-v'}">${p.deal||'Vendita'}</div>
+<div class="title">${p.title||'Immobile'}</div>
+<div class="loc">📍 ${loc||'—'}</div>
+${mapUrl?`<a class="maplink" href="${mapUrl}" target="_blank">🗺 Vedi su Google Maps</a>`:''}
+<div class="price">${priceStr}</div>
+${imgUrl?`<img class="main-img" id="mainImg" src="${imgUrl}" alt="">`:''}
+${media.filter(m=>m.mtype==='img').length>1?`<div class="thumbs">${media.filter(m=>m.mtype==='img').map((m,i)=>`<img src="${m.url||m.data}" class="${i===0?'active':''}" onclick="document.getElementById('mainImg').src=this.src;document.querySelectorAll('.thumbs img').forEach(t=>t.classList.remove('active'));this.classList.add('active')">`).join('')}</div>`:''}
+${infos.length?`<div class="grid">${infos.map(([l,v])=>`<div class="icard"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('')}</div>`:''}
+${feats.length?`<div class="sec-t">Caratteristiche</div><div class="feats">${feats.map(f=>`<span class="feat">✓ ${f}</span>`).join('')}</div>`:''}
+${p.desc?`<div class="sec-t">Descrizione</div><div class="desc">${p.desc}</div>`:''}
+</div>
+<div class="foot">International Real Estate — ${new Date().toLocaleDateString('it-IT')}</div>
+</body></html>`;
+}
 
 async function generateShareLink(){
   const p = properties.find(x=>x.id===currentShareId);
   if(!p) return;
   const btn = document.getElementById('genLinkBtn');
-  btn.textContent = '⟳ Generazione...';
+  btn.textContent = '⟳ Pubblicazione...';
   btn.disabled = true;
-
-  // Public card — no private notes, no agent name
-  const publicData = {
-    title:p.title, deal:p.deal, type:p.type,
-    nation:p.nation, city:p.city, zone:p.zone, address:p.address,
-    price:p.price, surface:p.surface, rooms:p.rooms,
-    beds:p.beds, baths:p.baths, garage:p.garage, garden:p.garden,
-    desc:p.desc, features:p.features||[],
-    media:(p.media||[]).map(m=>({mtype:m.mtype,name:m.name,url:m.url||m.data||''})),
-    generatedAt:Date.now()
-  };
-
   try{
-    const res = await fetch('https://api.jsonbin.io/v3/b', {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'X-Master-Key': SHARE_JSONBIN_KEY,
-        'X-Bin-Name':'ire-card-'+p.id,
-        'X-Bin-Private':'false'
-      },
-      body: JSON.stringify(publicData)
-    });
-    const data = await res.json();
-    const binId = data.metadata?.id;
-    if(!binId) throw new Error('No bin ID');
-
-    // Build viewer URL — opens the public card page
-    // Shorten with TinyURL (free, no limits)
+    const html = buildCardHtml(p);
+    const fileName = `cards/card-${p.id}.html`;
+    const encoded = btoa(unescape(encodeURIComponent(html)));
+    // Check if file exists to get SHA
+    let sha = null;
     try{
-      const tinyRes = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(`https://fr-realty.github.io/international-real-estate/international-real-estate.html?card=${binId}`)}`);
-      if(tinyRes.ok){
-        currentShareLink = await tinyRes.text();
-      } else {
-        currentShareLink = `https://fr-realty.github.io/international-real-estate/international-real-estate.html?card=${binId}`;
-      }
-    }catch(e){
-      currentShareLink = `https://fr-realty.github.io/international-real-estate/international-real-estate.html?card=${binId}`;
-    }
+      const check = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${fileName}`,{
+        headers:{'Authorization':'token '+GITHUB_TOKEN,'Accept':'application/vnd.github.v3+json'}
+      });
+      if(check.ok){ const cd = await check.json(); sha = cd.sha; }
+    }catch(e){}
+    // Upload to GitHub
+    const body = {message:`Scheda: ${p.title}`,content:encoded,branch:GITHUB_BRANCH};
+    if(sha) body.sha = sha;
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${fileName}`,{
+      method:'PUT',
+      headers:{'Authorization':'token '+GITHUB_TOKEN,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+    if(!res.ok) throw new Error('GitHub: '+(await res.text()));
+    const longUrl = `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}/${fileName}`;
+    // Shorten with TinyURL
+    try{
+      const tiny = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`);
+      currentShareLink = tiny.ok ? (await tiny.text()).trim() : longUrl;
+    }catch(e){ currentShareLink = longUrl; }
     document.getElementById('shareLinkText').textContent = currentShareLink;
     document.getElementById('shareLinkBox').style.display = 'block';
     btn.textContent = '🔄 Rigenera Link';
     btn.disabled = false;
-
-    // Save bin ID to property
-    p.shareBinId = binId;
     p.shareLink = currentShareLink;
     save();
   }catch(e){
-    console.warn('Share link error:', e);
+    console.warn('Share error:', e);
     btn.textContent = '🔗 Genera Link Scheda';
     btn.disabled = false;
-    // Fallback: open card in new window
-    const html = buildPublicCard(p);
-    const win = window.open('','_blank');
-    if(win){ win.document.write(html); win.document.close(); }
-    alert('Link non disponibile. La scheda è stata aperta in una nuova finestra — salvala come PDF.');
+    alert('Errore generazione link: '+e.message);
   }
 }
 
