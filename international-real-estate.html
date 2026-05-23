@@ -386,6 +386,19 @@ select:focus,input:focus,textarea:focus{border-color:var(--gold)}
   .gadd{width:54px;height:42px;font-size:17px}
 }
 
+/* ── MULTI-SELECT DROPDOWN ─────────────────────── */
+.multi-drop{position:relative}
+.multi-drop-btn{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--off);border:1px solid #ddd;border-radius:var(--r);cursor:pointer;font-size:13px;color:var(--text);transition:border-color .15s;user-select:none}
+.multi-drop-btn:hover{border-color:var(--gold)}
+.multi-drop.open .multi-drop-btn{border-color:var(--gold)}
+.drop-arrow{font-size:10px;color:var(--muted);transition:transform .15s}
+.multi-drop.open .drop-arrow{transform:rotate(180deg)}
+.multi-drop-list{display:none;position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--white);border:1px solid var(--border2);border-radius:var(--r);box-shadow:0 4px 16px rgba(13,27,42,.12);z-index:30;max-height:200px;overflow-y:auto;padding:6px 0}
+.multi-drop.open .multi-drop-list{display:block}
+.multi-cb{display:flex;align-items:center;gap:8px;padding:5px 12px;font-size:12px;cursor:pointer;color:var(--text);transition:background .12s}
+.multi-cb:hover{background:rgba(201,168,76,.08)}
+.multi-cb input{accent-color:var(--gold);width:14px;height:14px;cursor:pointer;flex-shrink:0}
+
 /* ── PRINT ─────────────────────────────────────── */
 @media print{
   .topbar,.sidebar,.dacts,.share-bar,.gal-nav,.gadd,.priv-badge,.priv-section,.mob-bar,.mob-overlay,.mob-bar-btn{display:none!important}
@@ -459,50 +472,77 @@ select:focus,input:focus,textarea:focus{border-color:var(--gold)}
         <option value="">Tutte le nazioni</option>
       </select>
     </div>
+
+    <!-- CITTÀ multipla -->
     <div class="fg">
-      <label class="fl">Città</label>
-      <select id="fCity" onchange="syncZoneFilter();applyFilters()">
-        <option value="">Tutte le città</option>
-      </select>
+      <label class="fl">Città <span id="cityCount" style="color:var(--gold);font-size:10px"></span></label>
+      <div class="multi-drop" id="cityDrop">
+        <div class="multi-drop-btn" onclick="toggleDrop('cityDrop')">
+          <span id="cityLabel">Tutte le città</span>
+          <span class="drop-arrow">▾</span>
+        </div>
+        <div class="multi-drop-list" id="cityList"></div>
+      </div>
     </div>
+
+    <!-- ZONA multipla -->
     <div class="fg">
-      <label class="fl">Zona</label>
-      <select id="fZone" onchange="applyFilters()">
-        <option value="">Tutte le zone</option>
-      </select>
+      <label class="fl">Zona <span id="zoneCount" style="color:var(--gold);font-size:10px"></span></label>
+      <div class="multi-drop" id="zoneDrop">
+        <div class="multi-drop-btn" onclick="toggleDrop('zoneDrop')">
+          <span id="zoneLabel">Tutte le zone</span>
+          <span class="drop-arrow">▾</span>
+        </div>
+        <div class="multi-drop-list" id="zoneList"></div>
+      </div>
     </div>
+
+    <!-- TIPOLOGIA multipla -->
     <div class="fg">
-      <label class="fl">Tipologia</label>
-      <select id="fType" onchange="applyFilters()">
-        <option value="">Tutte</option>
-        <option>Appartamento</option>
-        <option>Villa/Casa</option>
-        <option>Stanza</option>
-        <option>Ufficio</option>
-        <option>Negozio</option>
-        <option>Capannone</option>
-        <option>Laboratorio</option>
-        <option>Magazzino</option>
-        <option>Palazzo</option>
-        <option>Hotel</option>
-        <option>Terreno</option>
-        <option>Garage</option>
-        <option>NPL</option>
-        <option>Asta</option>
-        <option>Attività</option>
-      </select>
+      <label class="fl">Tipologia <span id="typeCount" style="color:var(--gold);font-size:10px"></span></label>
+      <div class="multi-drop" id="typeDrop">
+        <div class="multi-drop-btn" onclick="toggleDrop('typeDrop')">
+          <span id="typeLabel">Tutte</span>
+          <span class="drop-arrow">▾</span>
+        </div>
+        <div class="multi-drop-list" id="typeList">
+          <label class="multi-cb"><input type="checkbox" value="Appartamento" onchange="applyFilters()"> Appartamento</label>
+          <label class="multi-cb"><input type="checkbox" value="Villa/Casa" onchange="applyFilters()"> Villa/Casa</label>
+          <label class="multi-cb"><input type="checkbox" value="Stanza" onchange="applyFilters()"> Stanza</label>
+          <label class="multi-cb"><input type="checkbox" value="Ufficio" onchange="applyFilters()"> Ufficio</label>
+          <label class="multi-cb"><input type="checkbox" value="Negozio" onchange="applyFilters()"> Negozio</label>
+          <label class="multi-cb"><input type="checkbox" value="Capannone" onchange="applyFilters()"> Capannone</label>
+          <label class="multi-cb"><input type="checkbox" value="Laboratorio" onchange="applyFilters()"> Laboratorio</label>
+          <label class="multi-cb"><input type="checkbox" value="Magazzino" onchange="applyFilters()"> Magazzino</label>
+          <label class="multi-cb"><input type="checkbox" value="Palazzo" onchange="applyFilters()"> Palazzo</label>
+          <label class="multi-cb"><input type="checkbox" value="Hotel" onchange="applyFilters()"> Hotel</label>
+          <label class="multi-cb"><input type="checkbox" value="Terreno" onchange="applyFilters()"> Terreno</label>
+          <label class="multi-cb"><input type="checkbox" value="Garage" onchange="applyFilters()"> Garage</label>
+          <label class="multi-cb"><input type="checkbox" value="NPL" onchange="applyFilters()"> NPL</label>
+          <label class="multi-cb"><input type="checkbox" value="Asta" onchange="applyFilters()"> Asta</label>
+          <label class="multi-cb"><input type="checkbox" value="Attività" onchange="applyFilters()"> Attività</label>
+        </div>
+      </div>
     </div>
+
+    <!-- LOCALI multipla -->
     <div class="fg">
-      <label class="fl">Locali</label>
-      <select id="fRooms" onchange="applyFilters()">
-        <option value="">Qualsiasi</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5+">5 o +</option>
-      </select>
+      <label class="fl">Locali <span id="roomsCount" style="color:var(--gold);font-size:10px"></span></label>
+      <div class="multi-drop" id="roomsDrop">
+        <div class="multi-drop-btn" onclick="toggleDrop('roomsDrop')">
+          <span id="roomsLabel">Qualsiasi</span>
+          <span class="drop-arrow">▾</span>
+        </div>
+        <div class="multi-drop-list" id="roomsList">
+          <label class="multi-cb"><input type="checkbox" value="1" onchange="applyFilters()"> 1 locale</label>
+          <label class="multi-cb"><input type="checkbox" value="2" onchange="applyFilters()"> 2 locali</label>
+          <label class="multi-cb"><input type="checkbox" value="3" onchange="applyFilters()"> 3 locali</label>
+          <label class="multi-cb"><input type="checkbox" value="4" onchange="applyFilters()"> 4 locali</label>
+          <label class="multi-cb"><input type="checkbox" value="5+" onchange="applyFilters()"> 5 o +</label>
+        </div>
+      </div>
     </div>
+
     <div class="fg">
       <label class="fl">Agente</label>
       <select id="fAgent" onchange="applyFilters()">
@@ -1100,32 +1140,77 @@ function roomsVal(v){
 // ════════════════════════════════════════════════════════
 // FILTERS & LIST
 // ════════════════════════════════════════════════════════
+// ── MULTI-DROP HELPERS ───────────────────────────
+function toggleDrop(id){
+  const el = document.getElementById(id);
+  const wasOpen = el.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.multi-drop.open').forEach(d => d.classList.remove('open'));
+  if(!wasOpen) el.classList.add('open');
+}
+// Close dropdowns when clicking outside
+document.addEventListener('click', e => {
+  if(!e.target.closest('.multi-drop')) {
+    document.querySelectorAll('.multi-drop.open').forEach(d => d.classList.remove('open'));
+  }
+});
+
+function getChecked(listId){
+  return [...document.querySelectorAll(`#${listId} input:checked`)].map(cb => cb.value);
+}
+
+function updateDropLabel(labelId, countId, values, allLabel){
+  const label = document.getElementById(labelId);
+  const count = document.getElementById(countId);
+  if(!values.length){
+    label.textContent = allLabel;
+    count.textContent = '';
+  } else if(values.length === 1){
+    label.textContent = values[0];
+    count.textContent = '';
+  } else {
+    label.textContent = values[0] + '...';
+    count.textContent = `+${values.length-1}`;
+  }
+}
+
 function populateNationFilter(){
-  const sel=document.getElementById('fNation');
-  const cur=sel.value;
-  const nats=sortAlpha([...new Set(properties.map(p=>p.nation).filter(Boolean))]);
-  sel.innerHTML='<option value="">Tutte le nazioni</option>'+nats.map(n=>`<option${n===cur?' selected':''}>${n}</option>`).join('');
-  // datalist
-  document.getElementById('dlNations').innerHTML=nats.map(n=>`<option value="${n}">`).join('');
+  const sel = document.getElementById('fNation');
+  const cur = sel.value;
+  const nats = sortAlpha([...new Set(properties.map(p=>p.nation).filter(Boolean))]);
+  sel.innerHTML = '<option value="">Tutte le nazioni</option>' + nats.map(n=>`<option${n===cur?' selected':''}>${n}</option>`).join('');
+  document.getElementById('dlNations').innerHTML = nats.map(n=>`<option value="${n}">`).join('');
   syncCityFilter();
 }
+
 function syncCityFilter(){
-  const nat=document.getElementById('fNation').value;
-  const sel=document.getElementById('fCity');
-  const cur=sel.value;
-  const cities=sortAlpha([...new Set(properties.filter(p=>!nat||p.nation===nat).map(p=>p.city).filter(Boolean))]);
-  sel.innerHTML='<option value="">Tutte le città</option>'+cities.map(c=>`<option${c===cur?' selected':''}>${c}</option>`).join('');
-  document.getElementById('dlCities').innerHTML=cities.map(c=>`<option value="${c}">`).join('');
+  const nat = document.getElementById('fNation').value;
+  const selectedCities = getChecked('cityList');
+  const cities = sortAlpha([...new Set(properties.filter(p=>!nat||p.nation===nat).map(p=>p.city).filter(Boolean))]);
+  const list = document.getElementById('cityList');
+  list.innerHTML = cities.map(c=>`<label class="multi-cb"><input type="checkbox" value="${c}" ${selectedCities.includes(c)?'checked':''} onchange="syncZoneFilter();applyFilters()"> ${c}</label>`).join('');
+  document.getElementById('dlCities').innerHTML = cities.map(c=>`<option value="${c}">`).join('');
+  updateDropLabel('cityLabel','cityCount', getChecked('cityList'), 'Tutte le città');
   syncZoneFilter();
 }
+
 function syncZoneFilter(){
-  const nat=document.getElementById('fNation').value;
-  const city=document.getElementById('fCity').value;
-  const sel=document.getElementById('fZone');
-  const cur=sel.value;
-  const zones=sortAlpha([...new Set(properties.filter(p=>(!nat||p.nation===nat)&&(!city||p.city===city)).map(p=>p.zone).filter(Boolean))]);
-  sel.innerHTML='<option value="">Tutte le zone</option>'+zones.map(z=>`<option${z===cur?' selected':''}>${z}</option>`).join('');
-  document.getElementById('dlZones').innerHTML=zones.map(z=>`<option value="${z}">`).join('');
+  const nat = document.getElementById('fNation').value;
+  const selectedCities = getChecked('cityList');
+  const selectedZones = getChecked('zoneList');
+  const zones = sortAlpha([...new Set(properties.filter(p=>{
+    if(nat && p.nation !== nat) return false;
+    if(selectedCities.length && !selectedCities.includes(p.city)) return false;
+    return true;
+  }).map(p=>p.zone).filter(Boolean))]);
+  const list = document.getElementById('zoneList');
+  if(!zones.length){
+    list.innerHTML = '<div style="padding:8px 12px;font-size:12px;color:var(--muted)">Nessuna zona</div>';
+  } else {
+    list.innerHTML = zones.map(z=>`<label class="multi-cb"><input type="checkbox" value="${z}" ${selectedZones.includes(z)?'checked':''} onchange="applyFilters()"> ${z}</label>`).join('');
+  }
+  document.getElementById('dlZones').innerHTML = zones.map(z=>`<option value="${z}">`).join('');
+  updateDropLabel('zoneLabel','zoneCount', getChecked('zoneList'), 'Tutte le zone');
 }
 function populateAgentFilter(){
   const sorted=sortAlpha(agents.map(a=>a.name));
@@ -1139,53 +1224,73 @@ function populateAgentFilter(){
 }
 
 function applyFilters(){
-  const q=document.getElementById('searchQ').value.toLowerCase().trim();
-  const deal=document.getElementById('fDeal').value;
-  const nat=document.getElementById('fNation').value;
-  const city=document.getElementById('fCity').value;
-  const zone=document.getElementById('fZone').value;
-  const type=document.getElementById('fType').value;
-  const rooms=document.getElementById('fRooms').value;
-  const agent=document.getElementById('fAgent').value;
-  const prMin=parseFloat(document.getElementById('fPrMin').value)||0;
-  const prMax=parseFloat(document.getElementById('fPrMax').value)||Infinity;
+  const q = document.getElementById('searchQ').value.toLowerCase().trim();
+  const deal = document.getElementById('fDeal').value;
+  const nat = document.getElementById('fNation').value;
+  const agent = document.getElementById('fAgent').value;
+  const prMin = parseFloat(document.getElementById('fPrMin').value)||0;
+  const prMax = parseFloat(document.getElementById('fPrMax').value)||Infinity;
 
-  let filtered=properties.filter(p=>{
-    if(deal&&p.deal!==deal)return false;
-    if(nat&&p.nation!==nat)return false;
-    if(city&&p.city!==city)return false;
-    if(zone&&p.zone!==zone)return false;
-    if(type&&p.type!==type)return false;
-    if(agent&&p.agentId!==agent)return false;
-    if(p.price&&(p.price<prMin||p.price>prMax))return false;
-    if(rooms){
-      const rv=roomsVal(p.rooms);
-      if(rooms==='5+'){if(rv!=='5+')return false;}
-      else{if(rv!==rooms)return false;}
+  // Multi-select values
+  const cities = getChecked('cityList');
+  const zones = getChecked('zoneList');
+  const types = getChecked('typeList');
+  const rooms = getChecked('roomsList');
+
+  // Update labels
+  updateDropLabel('cityLabel','cityCount', cities, 'Tutte le città');
+  updateDropLabel('zoneLabel','zoneCount', zones, 'Tutte le zone');
+  updateDropLabel('typeLabel','typeCount', types, 'Tutte');
+  updateDropLabel('roomsLabel','roomsCount', rooms, 'Qualsiasi');
+
+  let filtered = properties.filter(p=>{
+    if(deal && p.deal !== deal) return false;
+    if(nat && p.nation !== nat) return false;
+    if(cities.length && !cities.includes(p.city)) return false;
+    if(zones.length && !zones.includes(p.zone)) return false;
+    if(types.length && !types.includes(p.type)) return false;
+    if(agent && p.agentId !== agent) return false;
+    if(p.price && (p.price < prMin || p.price > prMax)) return false;
+    if(rooms.length){
+      const rv = roomsVal(p.rooms);
+      if(!rooms.includes(rv)) return false;
     }
     if(q){
-      const h=[p.title,p.city,p.nation,p.zone,p.address,p.desc,p.type].join(' ').toLowerCase();
-      if(!h.includes(q))return false;
+      const h = [p.title,p.city,p.nation,p.zone,p.address,p.desc,p.type].join(' ').toLowerCase();
+      if(!h.includes(q)) return false;
     }
     return true;
   });
 
   // Sort by price ascending (nulls last)
   filtered.sort((a,b)=>{
-    if(!a.price&&a.price!==0)return 1;
-    if(!b.price&&b.price!==0)return-1;
-    return a.price-b.price;
+    if(!a.price && a.price!==0) return 1;
+    if(!b.price && b.price!==0) return -1;
+    return a.price - b.price;
   });
 
   renderList(filtered);
-  document.getElementById('cAll').textContent=properties.length;
-  document.getElementById('cFilt').textContent=filtered.length;
+  document.getElementById('cAll').textContent = properties.length;
+  document.getElementById('cFilt').textContent = filtered.length;
 }
 
 function resetFilters(){
-  ['searchQ','fPrMin','fPrMax'].forEach(id=>document.getElementById(id).value='');
-  ['fDeal','fNation','fCity','fZone','fType','fRooms','fAgent'].forEach(id=>document.getElementById(id).value='');
-  syncCityFilter();applyFilters();
+  document.getElementById('searchQ').value='';
+  document.getElementById('fPrMin').value='';
+  document.getElementById('fPrMax').value='';
+  document.getElementById('fDeal').value='';
+  document.getElementById('fNation').value='';
+  document.getElementById('fAgent').value='';
+  // Uncheck all multi-selects
+  ['cityList','zoneList','typeList','roomsList'].forEach(id=>{
+    document.querySelectorAll(`#${id} input`).forEach(cb=>cb.checked=false);
+  });
+  updateDropLabel('cityLabel','cityCount',[],'Tutte le città');
+  updateDropLabel('zoneLabel','zoneCount',[],'Tutte le zone');
+  updateDropLabel('typeLabel','typeCount',[],'Tutte');
+  updateDropLabel('roomsLabel','roomsCount',[],'Qualsiasi');
+  syncCityFilter();
+  applyFilters();
 }
 
 function renderList(list){
