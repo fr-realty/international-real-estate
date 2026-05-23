@@ -48,10 +48,10 @@ button{font-family:'Jost',sans-serif;cursor:pointer;border:none;transition:all .
 .body{display:flex;flex:1;overflow:hidden}
 
 /* ── SIDEBAR ───────────────────────────────────── */
-.sidebar{width:290px;min-width:290px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-.sb-head{background:var(--navy2);padding:1rem;border-bottom:1px solid rgba(201,168,76,.2)}
-.sb-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:.75rem}
-.sb-filters{padding:.75rem;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:.55rem}
+.sidebar{width:290px;min-width:290px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
+.sb-head{background:var(--navy2);padding:.75rem 1rem;border-bottom:1px solid rgba(201,168,76,.2);flex-shrink:0;position:sticky;top:0;z-index:2}
+.sb-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:.6rem}
+.sb-filters{padding:.6rem .75rem;display:flex;flex-direction:column;gap:.45rem;flex-shrink:0}
 
 /* form controls */
 select,input[type=text],input[type=number],input[type=email],input[type=tel],textarea{font-family:'Jost',sans-serif;font-size:13px;border:1px solid #ddd;border-radius:var(--r);background:var(--off);color:var(--text);outline:none;transition:border-color .15s}
@@ -65,22 +65,75 @@ select:focus,input:focus,textarea:focus{border-color:var(--gold)}
 .search-wrap input:focus{border-color:var(--gold)}
 .search-ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none;color:#fff;font-size:14px}
 
-.prop-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:0}
-.pcard{padding:10px 12px;border-bottom:1px solid #eee;cursor:pointer;transition:background .15s;position:relative}
-.pcard:hover{background:rgba(201,168,76,.07)}
-.pcard.active{background:rgba(201,168,76,.12);border-left:3px solid var(--gold)}
-.pcard .pn{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:55px;margin-bottom:2px}
-.pcard .pl{font-size:11px;color:var(--muted);margin-bottom:3px}
-.pcard .pp{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold-dim);font-weight:600}
-.ptag{position:absolute;top:8px;right:8px;font-size:9px;padding:2px 7px;border-radius:20px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-.tag-v{background:rgba(42,122,74,.12);color:var(--green)}
-.tag-a{background:rgba(201,168,76,.15);color:var(--gold-dim)}
+.prop-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:0;background:var(--cream)}
+
+/* ── RESULT CARDS (horizontal with image) ─────── */
+.rcard{display:flex;background:var(--white);border-bottom:1px solid var(--border);border-left:3px solid transparent;cursor:pointer;transition:all .18s;position:relative;min-height:180px}
+.rcard:hover{background:rgba(201,168,76,.04);border-left-color:var(--gold)}
+.rcard.active{background:rgba(201,168,76,.09);border-left-color:var(--gold)}
+.rcard-img{width:220px;min-width:220px;background:var(--cream2);overflow:hidden;flex-shrink:0;position:relative}
+.rcard-img img{width:100%;height:100%;object-fit:cover;display:block}
+.rcard-img-empty{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:44px;opacity:.15}
+.rcard-body{flex:1;padding:16px 18px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;gap:8px}
+.rcard-top{}
+.rcard-type{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px}
+.rcard-price{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--gold-dim);margin-bottom:5px;line-height:1}
+.rcard-price small{font-family:'Jost',sans-serif;font-size:13px;font-weight:400;color:var(--muted)}
+.rcard-title{font-weight:600;font-size:15px;color:var(--navy);line-height:1.35;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rcard-loc{font-size:12px;color:var(--muted);margin-bottom:8px}
+.rcard-addr{font-size:11px;color:var(--mid);margin-bottom:6px;font-style:italic}
+.rcard-specs{display:flex;flex-direction:row;flex-wrap:wrap;gap:14px;border-top:1px solid var(--border);padding-top:8px;margin-top:4px;align-items:center}
+.rcard-spec{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--mid);font-weight:500}
+.rcard-spec .spec-ico{font-size:18px;line-height:1}
+.rcard-spec .spec-val{font-size:13px;font-weight:600;color:var(--navy)}
+.rcard-spec .spec-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.spec-block{display:flex;flex-direction:column;line-height:1.2}
+.rcard-tag{position:absolute;top:10px;left:10px;font-size:10px;padding:3px 9px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.tag-v{background:rgba(42,122,74,.9);color:#fff}
+.tag-a{background:rgba(201,168,76,.95);color:var(--navy)}
 
 .stats-bar{display:flex;gap:.5rem;padding:.45rem 1rem;background:var(--off);border-top:1px solid #e8e4dc;font-size:11px;color:var(--muted);align-items:center;flex-shrink:0}
 .stats-bar strong{color:var(--text);font-weight:600}
 
-/* ── MAIN ──────────────────────────────────────── */
-.main{flex:1;overflow-y:auto;background:var(--cream)}
+/* ── MAIN — results list area ──────────────────── */
+.main{flex:1;overflow:hidden;background:var(--cream);display:flex;flex-direction:column}
+.main-results{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.results-header{padding:.6rem 1rem;background:var(--white);border-bottom:1px solid var(--border);font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.results-header strong{color:var(--text)}
+
+/* ── DETAIL PANEL ──────────────────────────────── */
+.detail-panel{
+  position:fixed;top:56px;right:0;bottom:0;
+  width:680px;max-width:100vw;
+  background:var(--white);
+  border-left:1px solid var(--border);
+  box-shadow:-8px 0 40px rgba(13,27,42,.18);
+  z-index:60;
+  transform:translateX(110%);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+.detail-panel.open{transform:translateX(0)}
+.detail-panel-close{
+  background:var(--navy);
+  padding:.75rem 1.25rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+  position:sticky;top:0;z-index:5;
+  border-bottom:1px solid rgba(201,168,76,.2);
+}
+.detail-panel-close .dpc-title{
+  font-family:'Playfair Display',serif;font-size:15px;font-weight:600;
+  color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80%;
+}
+.detail-dim{
+  display:none;position:fixed;inset:0;
+  background:rgba(13,27,42,.4);z-index:55;
+  cursor:pointer;
+}
+.detail-dim.open{display:block}
 
 /* Welcome */
 .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;color:var(--muted);padding:2rem}
@@ -193,12 +246,153 @@ select:focus,input:focus,textarea:focus{border-color:var(--gold)}
 
 /* Print / PDF styles */
 @media print{
-  .topbar,.sidebar,.dacts,.share-bar,.gal-nav,.gadd,.priv-badge,.priv-section{display:none!important}
+  .topbar,.sidebar,.dacts,.share-bar,.gal-nav,.gadd,.priv-badge,.priv-section,.mob-bar,.mob-overlay{display:none!important}
   .shell{display:block}
   .body{display:block}
   .main{overflow:visible}
   .detail{padding:1rem}
   body{font-size:12px}
+}
+
+/* ── PASSWORD MODAL ────────────────────────────── */
+.pw-modal{position:fixed;inset:0;background:rgba(13,27,42,.85);z-index:200;display:none;align-items:center;justify-content:center}
+.pw-modal.open{display:flex}
+.pw-box{background:var(--white);border-radius:10px;padding:2rem;width:340px;text-align:center;border:1px solid var(--border);box-shadow:var(--shadow2)}
+.pw-box h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--navy);margin-bottom:.5rem}
+.pw-box p{font-size:13px;color:var(--muted);margin-bottom:1.25rem}
+.pw-box input{width:100%;padding:10px 12px;font-size:15px;letter-spacing:.1em;text-align:center;margin-bottom:10px;border:1px solid var(--border);border-radius:var(--r)}
+.pw-error{color:var(--red);font-size:12px;margin-bottom:10px;min-height:16px}
+.mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--navy);border-top:1px solid rgba(201,168,76,.25);z-index:90;height:58px;align-items:center;justify-content:space-around;padding:0 4px}
+.mob-bar-btn{display:flex;flex-direction:column;align-items:center;gap:3px;color:rgba(255,255,255,.55);font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;padding:6px 10px;border:none;background:none;transition:color .15s;border-radius:var(--r);flex:1}
+.mob-bar-btn .ico{font-size:22px;line-height:1}
+.mob-bar-btn.active,.mob-bar-btn:hover{color:var(--gold)}
+.mob-bar-btn.active .ico{filter:drop-shadow(0 0 4px rgba(201,168,76,.6))}
+
+/* Mobile slide-over sidebar */
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(13,27,42,.6);z-index:80;-webkit-tap-highlight-color:transparent}
+.mob-overlay.open{display:block}
+
+/* ── TABLET (≤1024px) ──────────────────────────── */
+@media(max-width:1024px){
+  .sidebar{width:260px;min-width:260px}
+  .brand small{display:none}
+  .topbar-nav .btn-ghost:first-child{padding:6px 10px;font-size:12px}
+  .info-grid{grid-template-columns:repeat(3,1fr)}
+  .gal-main{height:280px}
+  .dtitle{font-size:24px}
+  .dprice{font-size:26px}
+}
+
+/* ── TABLET PORTRAIT (≤768px) ──────────────────── */
+@media(max-width:768px){
+  html,body{overflow:hidden;height:100%}
+  .shell{height:100vh}
+
+  /* Sidebar becomes a bottom drawer */
+  .sidebar{
+    position:fixed;
+    left:0;right:0;bottom:58px;
+    width:100%!important;min-width:unset!important;
+    max-height:75vh;
+    z-index:85;
+    border-right:none;
+    border-top:2px solid var(--gold);
+    border-radius:16px 16px 0 0;
+    box-shadow:0 -8px 32px rgba(13,27,42,.25);
+    transform:translateY(100%);
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+    overflow-y:auto;
+  }
+  .sidebar.mob-open{transform:translateY(0)}
+
+  /* Pull handle */
+  .sidebar::before{
+    content:'';display:block;width:40px;height:4px;
+    background:rgba(201,168,76,.4);border-radius:2px;
+    margin:10px auto 0;
+  }
+
+  .body{flex-direction:column;flex:1;overflow:hidden;height:calc(100vh - 52px - 58px)}
+  .main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+
+  /* Top bar slim */
+  .topbar{padding:0 1rem;height:52px}
+  .brand{font-size:15px}
+  .brand small{display:none}
+  .topbar-nav .btn-ghost{display:none}
+  .topbar-nav .btn-gold{font-size:12px;padding:7px 13px}
+
+  /* Show bottom bar */
+  .mob-bar{display:flex}
+
+  /* Detail layout */
+  .detail{padding:1rem 1rem 1.5rem}
+  .detail-top{flex-direction:column;gap:.5rem}
+  .dacts{flex-wrap:wrap;gap:5px}
+  .dacts .btn{font-size:11px;padding:7px 8px}
+  .dtitle{font-size:20px}
+  .dprice{font-size:22px;margin-bottom:.75rem}
+  .gal-main{height:240px}
+  .gthumb{width:64px;height:50px}
+  .gadd{width:64px;height:50px;font-size:20px}
+
+  /* Info grid 2 col */
+  .info-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .icard{padding:10px 12px}
+  .icard .val{font-size:14px}
+
+  /* Modals */
+  .overlay{padding:0;align-items:flex-end}
+  .modal{max-height:94vh;border-radius:14px 14px 0 0;padding:1.5rem 1.25rem;margin:0}
+  .modal-sm{max-width:100%}
+  .form-grid{grid-template-columns:1fr}
+  .fg.full{grid-column:1}
+  .cb-grid{grid-template-columns:1fr 1fr}
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{white-space:nowrap;padding:8px 12px;font-size:12px}
+
+  /* Prop list bigger tap targets */
+  .pcard{padding:13px 14px}
+  .pcard .pn{font-size:14px}
+  .pcard .pp{font-size:15px}
+
+  /* Agent rows */
+  .agent-row{flex-wrap:wrap}
+  .agent-row .aa{width:100%;justify-content:flex-end;margin-top:4px}
+
+  /* Filters */
+  .sb-filters{padding:1rem;gap:.75rem}
+  .fg select,.fg input{padding:10px 10px;font-size:14px}
+
+  /* Detail panel full width on mobile */
+  .detail-panel{width:100vw;top:52px}
+  .rcard-img{width:110px;min-width:110px}
+  .rcard-price{font-size:15px}
+  .rcard-title{font-size:12px}
+  .rcard-loc{font-size:10px}
+  .welcome-logo{font-size:44px}
+  .welcome h2{font-size:20px}
+  .welcome p{font-size:13px}
+}
+
+/* ── SMALL PHONE (≤400px) ──────────────────────── */
+@media(max-width:400px){
+  .info-grid{grid-template-columns:1fr}
+  .cb-grid{grid-template-columns:1fr}
+  .brand{font-size:13px}
+  .gal-main{height:200px}
+  .gthumb{width:54px;height:42px}
+  .gadd{width:54px;height:42px;font-size:17px}
+}
+
+/* ── PRINT ─────────────────────────────────────── */
+@media print{
+  .topbar,.sidebar,.dacts,.share-bar,.gal-nav,.gadd,.priv-badge,.priv-section,.mob-bar,.mob-overlay,.mob-bar-btn{display:none!important}
+  .shell,.body{display:block;height:auto}
+  .main{overflow:visible;padding-bottom:0}
+  .detail{padding:1rem}
+  body{font-size:12px;overflow:auto}
 }
 </style>
 </head>
@@ -212,16 +406,36 @@ select:focus,input:focus,textarea:focus{border-color:var(--gold)}
     <small>Private Property Database</small>
   </div>
   <div class="topbar-nav">
+    <span id="saveStatus" style="font-size:11px;color:rgba(255,255,255,.4);margin-right:4px">● Caricamento...</span>
     <button class="btn btn-ghost" onclick="openAgents()">👤 Agenti</button>
     <button class="btn btn-ghost" onclick="openIOModal()">⇅ Import/Export</button>
     <button class="btn btn-gold" onclick="openAddProperty()">+ Nuovo Immobile</button>
   </div>
 </div>
 
+<!-- Mobile sidebar overlay -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeMobSidebar()"></div>
+
+<!-- Mobile bottom bar -->
+<div class="mob-bar">
+  <button class="mob-bar-btn" onclick="toggleMobSidebar()" id="mobSearchBtn">
+    <span class="ico">🔍</span>Ricerca
+  </button>
+  <button class="mob-bar-btn" onclick="openAddProperty()">
+    <span class="ico">＋</span>Nuovo
+  </button>
+  <button class="mob-bar-btn" onclick="openAgents()">
+    <span class="ico">👤</span>Agenti
+  </button>
+  <button class="mob-bar-btn" onclick="openIOModal()">
+    <span class="ico">⇅</span>Backup
+  </button>
+</div>
+
 <div class="body">
 
 <!-- SIDEBAR -->
-<div class="sidebar">
+<div class="sidebar" id="mainSidebar">
   <div class="sb-head">
     <div class="sb-title" id="langSearch">Ricerca Avanzata</div>
     <div class="search-wrap">
@@ -307,25 +521,40 @@ select:focus,input:focus,textarea:focus{border-color:var(--gold)}
     <button class="btn btn-outline btn-sm" style="width:100%;margin-top:.25rem" onclick="resetFilters()">✕ Azzera filtri</button>
   </div>
 
-  <div class="prop-list" id="propList"></div>
-  <div class="stats-bar">
+  <div class="prop-list" id="propList" style="display:none"></div>
+  <div class="stats-bar" style="display:none">
     <span>Totale: <strong id="cAll">0</strong></span>
     <span>·</span>
     <span>Risultati: <strong id="cFilt">0</strong></span>
   </div>
 </div>
 
-<!-- MAIN -->
+<!-- MAIN — results area -->
 <div class="main" id="mainArea">
-  <div class="welcome">
-    <div class="welcome-logo">⌂</div>
-    <h2>International Real Estate</h2>
-    <p>Seleziona un immobile dalla lista o aggiungine uno nuovo con il pulsante in alto a destra.</p>
+  <div class="results-header">
+    <span>Risultati: <strong id="cFilt2">0</strong> immobili — ordinati per prezzo</span>
+  </div>
+  <div class="main-results" id="resultsList">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;padding:3rem">
+      <div style="font-size:52px;opacity:.12;font-family:'Playfair Display',serif;margin-bottom:1rem">⌂</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--mid);margin-bottom:.5rem">International Real Estate</div>
+      <div style="font-size:13px">Usa i filtri a sinistra o aggiungi il primo immobile</div>
+    </div>
   </div>
 </div>
 
 </div><!-- /body -->
 </div><!-- /shell -->
+
+<!-- DETAIL PANEL (slide from right) -->
+<div class="detail-dim" id="detailDim" onclick="closeDetailPanel()"></div>
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-panel-close">
+    <div class="dpc-title" id="dpcTitle">Dettaglio Immobile</div>
+    <button class="btn btn-outline btn-sm" onclick="closeDetailPanel()">✕ Chiudi</button>
+  </div>
+  <div id="detailContent" style="padding:1.5rem"></div>
+</div>
 
 <!-- ══════════════════════════════════════════════════════
      MODAL: AGGIUNGI / MODIFICA IMMOBILE
@@ -365,6 +594,10 @@ select:focus,input:focus,textarea:focus{border-color:var(--gold)}
       <div class="fg full">
         <label>Titolo / Nome immobile *</label>
         <input type="text" id="fTitle" placeholder="Es. Elegante appartamento centro storico">
+      </div>
+      <div class="fg full">
+        <label>🏢 Nome Agenzia (solo uso interno, non appare sulla scheda inviata al cliente)</label>
+        <input type="text" id="fAgency" placeholder="Es. International Real Estate - Sede Milano">
       </div>
       <div class="fg">
         <label>Nazione *</label>
@@ -518,6 +751,69 @@ select:focus,input:focus,textarea:focus{border-color:var(--gold)}
 </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════════
+     MODAL: CONDIVIDI SCHEDA
+══════════════════════════════════════════════════════ -->
+<div class="overlay" id="shareModal">
+<div class="modal modal-sm">
+  <div class="modal-title">📤 Condividi Scheda Immobile</div>
+
+  <!-- Property summary -->
+  <div id="shareInfo" style="background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:1.25rem;font-size:13px">
+    <div id="shareTitle" style="font-weight:600;font-size:15px;margin-bottom:2px"></div>
+    <div id="shareLoc" style="color:var(--muted);font-size:12px;margin-bottom:4px"></div>
+    <div id="sharePrice" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold-dim);font-weight:600"></div>
+  </div>
+
+  <!-- GENERA LINK -->
+  <div style="background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px">🔗 Link univoco scheda</div>
+    <p style="font-size:12px;color:var(--mid);margin-bottom:10px;line-height:1.6">Genera un link pubblico per questa scheda. Il cliente lo apre nel browser e vede la scheda completa con foto. <strong>Nessun dato riservato viene condiviso.</strong></p>
+    <button class="btn btn-gold" style="width:100%;margin-bottom:10px" id="genLinkBtn" onclick="generateShareLink()">🔗 Genera Link Scheda</button>
+    <div id="shareLinkBox" style="display:none;background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Link scheda (valido 6 mesi):</div>
+      <div id="shareLinkText" style="font-size:12px;word-break:break-all;color:var(--navy);font-family:monospace;background:var(--cream);padding:8px;border-radius:4px;margin-bottom:8px"></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-gold btn-sm" onclick="copyShareLink()">📋 Copia link</button>
+        <button class="btn btn-outline btn-sm" onclick="sendLinkWhatsApp()">📲 Invia WA</button>
+        <button class="btn btn-outline btn-sm" onclick="sendLinkEmail()">✉ Invia Email</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WhatsApp numero libero -->
+  <div style="background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px">📲 WhatsApp — numero non in rubrica</div>
+    <div style="display:flex;gap:8px">
+      <input type="tel" id="waNumber" placeholder="+39 333 1234567" style="flex:1;padding:9px 10px;font-size:14px">
+      <button class="btn btn-gold" onclick="openWADirect()">Apri WA</button>
+    </div>
+  </div>
+
+  <!-- PDF -->
+  <button class="btn btn-outline" style="width:100%;margin-bottom:.75rem" onclick="printPDF(currentShareId)">🖨 Stampa / Salva PDF</button>
+
+  <div class="modal-foot" style="margin-top:0">
+    <button class="btn btn-outline" onclick="closeShareModal()">Chiudi</button>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MODAL: PASSWORD
+══════════════════════════════════════════════════════ -->
+<div class="pw-modal" id="pwModal">
+  <div class="pw-box">
+    <div style="font-size:36px;margin-bottom:.5rem">🔐</div>
+    <h3>Accesso Riservato</h3>
+    <p id="pwDesc">Inserisci la password per continuare</p>
+    <input type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPassword()">
+    <div class="pw-error" id="pwError"></div>
+    <button class="btn btn-gold" style="width:100%;padding:10px" onclick="checkPassword()">Accedi</button>
+    <button class="btn btn-outline" style="width:100%;padding:9px;margin-top:8px" onclick="closePwModal()">Annulla</button>
+  </div>
+</div>
+
 <script>
 // ════════════════════════════════════════════════════════
 // STATE
@@ -530,6 +826,37 @@ let editingAgentId = null;
 let currentGalIdx = 0;
 let currentMediaAccept = '';
 let currentMediaType = '';
+let isAuthenticated = false;
+let pwCallback = null; // function to call after correct password
+
+// ── PASSWORD ─────────────────────────────────────
+const APP_PASSWORD = 'ire2024'; // ← cambia questa password come vuoi
+
+function requirePassword(desc, callback){
+  if(isAuthenticated){ callback(); return; }
+  pwCallback = callback;
+  document.getElementById('pwDesc').textContent = desc || 'Inserisci la password per continuare';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwError').textContent = '';
+  document.getElementById('pwModal').classList.add('open');
+  setTimeout(()=>document.getElementById('pwInput').focus(), 200);
+}
+function checkPassword(){
+  const val = document.getElementById('pwInput').value;
+  if(val === APP_PASSWORD){
+    isAuthenticated = true;
+    document.getElementById('pwModal').classList.remove('open');
+    if(pwCallback){ pwCallback(); pwCallback = null; }
+  } else {
+    document.getElementById('pwError').textContent = '❌ Password errata, riprova';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+function closePwModal(){
+  document.getElementById('pwModal').classList.remove('open');
+  pwCallback = null;
+}
 
 // Default features (sorted alpha)
 const DEFAULT_FEATURES = [
@@ -541,16 +868,127 @@ const DEFAULT_FEATURES = [
 let allFeatures = [...DEFAULT_FEATURES];
 
 // ════════════════════════════════════════════════════════
-// STORAGE
+// FIREBASE — CONFIGURAZIONE
 // ════════════════════════════════════════════════════════
-function save(){
-  try{
-    localStorage.setItem('ire_props',JSON.stringify(properties));
-    localStorage.setItem('ire_agents',JSON.stringify(agents));
-    localStorage.setItem('ire_features',JSON.stringify(allFeatures));
-  }catch(e){console.warn('Storage error',e)}
+const firebaseConfig = {
+  apiKey: "AIzaSyD8LScqOJVs1Iw_lg9fr-C01tVH_9ju_No",
+  authDomain: "international-real-estat-75173.firebaseapp.com",
+  projectId: "international-real-estat-75173",
+  storageBucket: "international-real-estat-75173.firebasestorage.app",
+  messagingSenderId: "732856972962",
+  appId: "1:732856972962:web:1a4716818545af9d9809fb"
+};
+
+// Load Firebase SDK dynamically
+let db = null;
+let storage = null;
+
+async function initFirebase(){
+  return new Promise((resolve) => {
+    // Load scripts sequentially (firestore depends on app)
+    const scripts = [
+      'https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js',
+      'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js'
+    ];
+
+    function loadNext(i){
+      if(i >= scripts.length){
+        try{
+          firebase.initializeApp(firebaseConfig);
+          db = firebase.firestore();
+          // Test connection
+          db.collection('ire').doc('settings').get()
+            .then(()=>{ console.log('Firebase OK'); resolve(); })
+            .catch(e=>{ console.warn('Firebase test failed:', e); resolve(); });
+        }catch(e){
+          console.warn('Firebase init failed:', e);
+          resolve();
+        }
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = scripts[i];
+      s.onload = () => loadNext(i+1);
+      s.onerror = () => { console.warn('Script load failed:', scripts[i]); resolve(); };
+      document.head.appendChild(s);
+    }
+
+    loadNext(0);
+  });
 }
-function load(){
+
+// ════════════════════════════════════════════════════════
+// SAVE / LOAD — FIREBASE
+// ════════════════════════════════════════════════════════
+let saveTimer = null;
+let isSaving = false;
+
+function showSaveStatus(msg, color){
+  const el = document.getElementById('saveStatus');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.color = color || 'rgba(255,255,255,.5)';
+}
+
+function save(){
+  // Save to localStorage as immediate backup
+  try{
+    localStorage.setItem('ire_props', JSON.stringify(properties));
+    localStorage.setItem('ire_agents', JSON.stringify(agents));
+    localStorage.setItem('ire_features', JSON.stringify(allFeatures));
+  }catch(e){}
+
+  clearTimeout(saveTimer);
+  showSaveStatus('● Non salvato', 'rgba(201,168,76,.8)');
+  saveTimer = setTimeout(()=>saveToCloud(), 1500);
+}
+
+async function saveToCloud(){
+  if(isSaving || !db) return;
+  isSaving = true;
+  showSaveStatus('⟳ Salvataggio...', 'rgba(255,255,255,.5)');
+  try{
+    const batch = db.batch();
+
+    // Save settings (agents + features)
+    batch.set(db.collection('ire').doc('settings'), {
+      agents,
+      allFeatures,
+      updatedAt: Date.now()
+    });
+
+    // Save each property as its own document
+    properties.forEach(p => {
+      const doc = {
+        ...p,
+        // Store only URL for media (not base64)
+        media: (p.media||[]).map(m => ({
+          id: m.id||'',
+          mtype: m.mtype||'img',
+          name: m.name||'',
+          url: m.url||m.data||''
+        }))
+      };
+      batch.set(db.collection('ire_props').doc(p.id), doc);
+    });
+
+    // Delete removed properties
+    // (handled on delete individually)
+
+    await batch.commit();
+    showSaveStatus('✓ Salvato', '#4CAF50');
+    setTimeout(()=>showSaveStatus('● Online','rgba(201,168,76,.6)'),2000);
+  }catch(e){
+    console.warn('Save error:', e);
+    showSaveStatus('⚠ Errore: '+e.message, '#ff6b6b');
+  }
+  isSaving = false;
+}
+
+async function load(){
+  showSaveStatus('⟳ Caricamento...', 'rgba(255,255,255,.5)');
+
+  // Load from localStorage immediately as fallback
   try{
     const p=localStorage.getItem('ire_props');
     const a=localStorage.getItem('ire_agents');
@@ -562,6 +1000,87 @@ function load(){
   if(!Array.isArray(properties)) properties=[];
   if(!Array.isArray(agents)) agents=[];
   if(!Array.isArray(allFeatures)) allFeatures=[...DEFAULT_FEATURES];
+
+  if(!db){ showSaveStatus('⚠ Offline','orange'); return; }
+
+  try{
+    // Load settings
+    const settingsDoc = await db.collection('ire').doc('settings').get();
+    if(settingsDoc.exists){
+      const d = settingsDoc.data();
+      if(d.agents) agents = d.agents;
+      if(d.allFeatures) allFeatures = d.allFeatures;
+    }
+
+    // Load all properties
+    const propsSnap = await db.collection('ire_props').get();
+    if(!propsSnap.empty){
+      properties = propsSnap.docs.map(doc => {
+        const d = doc.data();
+        // Restore media with url as data
+        d.media = (d.media||[]).map(m => ({...m, data: m.url||m.data||''}));
+        return d;
+      });
+      // Sort by createdAt descending
+      properties.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+    }
+
+    // Update localStorage
+    localStorage.setItem('ire_props', JSON.stringify(properties));
+    localStorage.setItem('ire_agents', JSON.stringify(agents));
+    localStorage.setItem('ire_features', JSON.stringify(allFeatures));
+
+    showSaveStatus('● Online','rgba(201,168,76,.6)');
+  }catch(e){
+    console.warn('Load error:', e);
+    showSaveStatus('⚠ Offline (dati locali)','orange');
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// CLOUDINARY — UPLOAD IMMAGINI
+// ════════════════════════════════════════════════════════
+const CLOUDINARY_CLOUD = 'dyzholfwv';
+const CLOUDINARY_PRESET = 'ire_upload';
+
+async function uploadToCloudinary(file){
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_PRESET);
+  formData.append('folder', 'international-real-estate');
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/auto/upload`, {
+    method: 'POST',
+    body: formData
+  });
+  if(!res.ok) throw new Error('Cloudinary upload failed');
+  const data = await res.json();
+  return data.secure_url;
+}
+
+async function uploadMediaFiles(files, propId){
+  showSaveStatus('⟳ Upload foto...', 'rgba(201,168,76,.8)');
+  const results = [];
+  for(const file of files){
+    const mtype = file.type.startsWith('image')?'img':file.type.startsWith('video')?'vid':'pdf';
+    try{
+      const url = await uploadToCloudinary(file);
+      results.push({ id:uid(), mtype, name:file.name, data:url, url });
+    }catch(e){
+      console.warn('Cloudinary error, fallback base64:', e);
+      const data = await readFileAsDataURL(file);
+      results.push({ id:uid(), mtype, name:file.name, data });
+    }
+  }
+  showSaveStatus('✓ Upload completato', '#4CAF50');
+  setTimeout(()=>showSaveStatus('● Online','rgba(201,168,76,.6)'), 2000);
+  return results;
+}
+
+function showSaveStatus(msg, color){
+  let el = document.getElementById('saveStatus');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.color = color || 'rgba(255,255,255,.5)';
 }
 
 // ════════════════════════════════════════════════════════
@@ -670,37 +1189,92 @@ function resetFilters(){
 }
 
 function renderList(list){
-  const el=document.getElementById('propList');
-  if(!list||!list.length){
-    el.innerHTML='<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:13px">Nessun immobile trovato</div>';
+  // Update both counters
+  document.getElementById('cFilt').textContent = list ? list.length : 0;
+  const c2 = document.getElementById('cFilt2');
+  if(c2) c2.textContent = list ? list.length : 0;
+
+  // Hide sidebar prop-list (no longer needed)
+  const sbl = document.getElementById('propList');
+  if(sbl) sbl.innerHTML = '';
+
+  const el = document.getElementById('resultsList');
+  if(!list || !list.length){
+    el.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--muted);font-size:13px">Nessun immobile trovato</div>';
     return;
   }
-  el.innerHTML=list.map(p=>{
-    const active=p.id===selectedId?' active':'';
-    const loc=[p.zone,p.city,p.nation].filter(Boolean).join(' · ');
-    const tagC=p.deal==='Affitto'?'tag-a':'tag-v';
-    return`<div class="pcard${active}" onclick="selectProp('${p.id}')">
-      <div class="ptag ${tagC}">${p.deal||''}</div>
-      <div class="pn">${p.title||'(senza titolo)'}</div>
-      <div class="pl">${loc||'—'} · ${p.type||''}</div>
-      <div class="pp">${fmtPrice(p.price)}${p.deal==='Affitto'?'<small style="font-size:10px;font-family:Jost,sans-serif;font-weight:400">/mese</small>':''}</div>
-    </div>`;
+  el.innerHTML = list.map(p => {
+    const active = p.id === selectedId ? ' active' : '';
+    const loc = [p.zone, p.city, p.nation].filter(Boolean).join(' · ');
+    const tagC = p.deal === 'Affitto' ? 'tag-a' : 'tag-v';
+    const firstImg = (p.media||[]).find(m => m.mtype === 'img');
+    const imgSrc = firstImg ? (firstImg.url || firstImg.data || '') : '';
+    const imgHtml = imgSrc
+      ? `<img src="${imgSrc}" alt="" loading="lazy">`
+      : `<div class="rcard-img-empty">🏠</div>`;
+    const specs = [];
+    if(p.surface) specs.push(`<div class="rcard-spec"><span class="spec-ico">📐</span><div class="spec-block"><span class="spec-val">${p.surface} m²</span><span class="spec-lbl">Superficie</span></div></div>`);
+    if(p.rooms)   specs.push(`<div class="rcard-spec"><span class="spec-ico">🚪</span><div class="spec-block"><span class="spec-val">${p.rooms}</span><span class="spec-lbl">Locali</span></div></div>`);
+    if(p.beds)    specs.push(`<div class="rcard-spec"><span class="spec-ico">🛏</span><div class="spec-block"><span class="spec-val">${p.beds}</span><span class="spec-lbl">Camere</span></div></div>`);
+    if(p.baths)   specs.push(`<div class="rcard-spec"><span class="spec-ico">🚿</span><div class="spec-block"><span class="spec-val">${p.baths}</span><span class="spec-lbl">Bagni</span></div></div>`);
+    if(p.garage)  specs.push(`<div class="rcard-spec"><span class="spec-ico">🅿</span><div class="spec-block"><span class="spec-val">${p.garage}</span><span class="spec-lbl">Garage</span></div></div>`);
+    return `<div class="rcard${active}" data-id="${p.id}" onclick="selectProp('${p.id}')">`+
+      `<div class="rcard-img">${imgHtml}<div class="rcard-tag ${tagC}">${p.deal||''}</div></div>`+
+      `<div class="rcard-body">`+
+        `<div class="rcard-top">`+
+          `<div class="rcard-type">${p.type||''}</div>`+
+          `<div class="rcard-price">${fmtPrice(p.price)}${p.deal==='Affitto'?'<small> /mese</small>':''}</div>`+
+          `<div class="rcard-title">${p.title||'(senza titolo)'}</div>`+
+          `<div class="rcard-loc">📍 ${loc||'—'}</div>`+
+          (p.address?`<div class="rcard-addr">🏠 ${p.address}</div>`:'')+
+        `</div>`+
+        `<div class="rcard-specs">${specs.join('')}</div>`+
+      `</div>`+
+    `</div>`;
   }).join('');
+}
+
+// ════════════════════════════════════════════════════════
+// DETAIL PANEL
+// ════════════════════════════════════════════════════════
+function openDetailPanel(){
+  const panel = document.getElementById('detailPanel');
+  const dim = document.getElementById('detailDim');
+  if(!panel) { console.error('detailPanel not found!'); return; }
+  panel.classList.add('open');
+  if(dim) dim.classList.add('open');
+}
+
+function closeDetailPanel(){
+  const panel = document.getElementById('detailPanel');
+  const dim = document.getElementById('detailDim');
+  if(panel) panel.classList.remove('open');
+  if(dim) dim.classList.remove('open');
+  selectedId = null;
+  document.querySelectorAll('.rcard').forEach(c => c.classList.remove('active'));
 }
 
 // ════════════════════════════════════════════════════════
 // DETAIL VIEW
 // ════════════════════════════════════════════════════════
 function selectProp(id){
-  selectedId=id;
-  const p=properties.find(x=>x.id===id);
-  if(!p)return;
-  applyFilters(); // refresh active state
+  selectedId = id;
+  const p = properties.find(x => x.id === id);
+  if(!p) return;
+  // Mark active card
+  document.querySelectorAll('.rcard').forEach(c => {
+    c.classList.toggle('active', c.dataset.id === id);
+  });
+  // Update panel title
+  document.getElementById('dpcTitle').textContent = p.title || 'Dettaglio Immobile';
   renderDetail(p);
+  openDetailPanel();
+  if(isMobile()) closeMobSidebar();
 }
 
 function renderDetail(p){
-  const main=document.getElementById('mainArea');
+  const container = document.getElementById('detailContent');
+  if(!container) return;
   const agent=agents.find(a=>a.id===p.agentId);
   const media=p.media||[];
   const images=media.filter(m=>m.mtype==='img');
@@ -711,16 +1285,18 @@ function renderDetail(p){
   let galMainHtml='';
   if(media.length>0){
     const first=media[0];
-    if(first.mtype==='img') galMainHtml=`<img id="galImg" src="${first.data}" alt="">`;
-    else if(first.mtype==='vid') galMainHtml=`<video id="galImg" src="${first.data}" controls></video>`;
-    else galMainHtml=`<div class="gal-empty"><span>📄</span>PDF: ${first.name}</div>`;
+    const src=first.url||first.data||'';
+    if(first.mtype==='img') galMainHtml=`<img id="galImg" src="${src}" alt="">`;
+    else if(first.mtype==='vid') galMainHtml=`<video id="galImg" src="${src}" controls></video>`;
+    else galMainHtml=`<div class="gal-empty"><span>📄</span>PDF: ${first.name}<br><a href="${src}" target="_blank" style="color:var(--gold)">Apri</a></div>`;
   }else{
     galMainHtml=`<div class="gal-empty"><span>🏠</span>Nessun media</div>`;
   }
 
   const thumbsHtml=media.map((m,i)=>{
+    const src=m.url||m.data||'';
     const typeLabel=m.mtype==='img'?'IMG':m.mtype==='vid'?'▶':'PDF';
-    const thumb=m.mtype==='img'?`<img src="${m.data}" alt="">`:`<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:22px">${m.mtype==='vid'?'🎬':'📄'}</div>`;
+    const thumb=m.mtype==='img'?`<img src="${src}" alt="">`:`<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:22px">${m.mtype==='vid'?'🎬':'📄'}</div>`;
     return`<div class="gthumb${i===0?' active':''}" id="gthumb-${i}" onclick="switchMedia(${i},'${p.id}')">${thumb}<span class="gthumb-type">${typeLabel}</span></div>`;
   }).join('')+`<div class="gadd" onclick="quickAddMedia('${p.id}')">＋</div>`;
 
@@ -746,7 +1322,7 @@ function renderDetail(p){
     <div class="ai"><div class="an">${agent.name}</div><div class="ac">${[agent.phone,agent.email].filter(Boolean).join(' · ')}</div></div>
   </div>`:'';
 
-  main.innerHTML=`<div class="detail">
+  container.innerHTML=`<div class="detail">
     <div class="detail-top">
       <div class="detail-hl">
         <div class="dtitle">${p.title||'(senza titolo)'}</div>
@@ -756,9 +1332,8 @@ function renderDetail(p){
       <div class="dacts">
         <button class="btn btn-outline btn-sm" onclick="openEditProperty('${p.id}')">✎ Modifica</button>
         <button class="btn btn-danger btn-sm" onclick="deleteProp('${p.id}')">🗑</button>
-        <button class="btn btn-outline btn-sm" onclick="shareWhatsApp('${p.id}')">📲 WA</button>
-        <button class="btn btn-outline btn-sm" onclick="shareEmail('${p.id}')">✉ Email</button>
-        <button class="btn btn-outline btn-sm" onclick="printPDF('${p.id}')">📄 PDF</button>
+        <button class="btn btn-gold btn-sm" onclick="openShareModal('${p.id}')">📤 Condividi</button>
+        <button class="btn btn-outline btn-sm" onclick="printPDF('${p.id}')">🖨 PDF</button>
       </div>
     </div>
 
@@ -780,6 +1355,8 @@ function renderDetail(p){
 
     ${agentHtml}
 
+    ${p.agency?`<div class="sec internal-only" style="margin-bottom:1rem"><div style="background:var(--navy2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;display:flex;align-items:center;gap:10px"><span style="font-size:20px">🏢</span><div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);font-weight:600;margin-bottom:2px">Agenzia (solo uso interno)</div><div style="color:#fff;font-size:14px;font-weight:500">${p.agency}</div></div></div></div>`:''}
+
     ${p.privNote?`<div class="sec internal-only"><div class="priv-badge"><strong>🔒 Note Riservate (uso interno)</strong>${p.privNote}</div></div>`:''}
   </div>`;
 
@@ -794,11 +1371,11 @@ function switchMedia(idx,propId){
   const m=media[idx];
   const main=document.getElementById('galMain');
   if(!main)return;
+  const src=m.url||m.data||'';
   let content='';
-  if(m.mtype==='img') content=`<img id="galImg" src="${m.data}" alt="">`;
-  else if(m.mtype==='vid') content=`<video id="galImg" src="${m.data}" controls style="width:100%;height:100%;object-fit:cover"></video>`;
-  else content=`<div class="gal-empty"><span>📄</span><br>PDF: ${m.name}<br><a href="${m.data}" download="${m.name}" style="color:var(--gold)">Scarica</a></div>`;
-  // preserve nav buttons
+  if(m.mtype==='img') content=`<img id="galImg" src="${src}" alt="">`;
+  else if(m.mtype==='vid') content=`<video id="galImg" src="${src}" controls style="width:100%;height:100%;object-fit:cover"></video>`;
+  else content=`<div class="gal-empty"><span>📄</span><br>PDF: ${m.name}<br><a href="${src}" download="${m.name}" style="color:var(--gold)">Scarica</a></div>`;
   const nav=media.length>1?`<div class="gal-nav"><button onclick="galPrev('${propId}')">‹</button><button onclick="galNext('${propId}')">›</button></div>`:'';
   main.innerHTML=content+nav;
   document.querySelectorAll('.gthumb').forEach((t,i)=>t.classList.toggle('active',i===idx));
@@ -853,6 +1430,11 @@ function handleMediaUploadDirect(e,propId){
 let modalMedia=[];
 
 function openAddProperty(){
+  requirePassword('Inserisci la password per aggiungere un immobile', ()=>{
+    _openAddProperty();
+  });
+}
+function _openAddProperty(){
   editingPropId=null;
   modalMedia=[];
   document.getElementById('propModalTitle').textContent='Nuovo Immobile';
@@ -865,6 +1447,11 @@ function openAddProperty(){
 }
 
 function openEditProperty(id){
+  requirePassword('Inserisci la password per modificare questo immobile', ()=>{
+    _openEditProperty(id);
+  });
+}
+function _openEditProperty(id){
   const p=properties.find(x=>x.id===id);
   if(!p)return;
   editingPropId=id;
@@ -886,7 +1473,7 @@ function closePropModal(){
 }
 
 function clearPropForm(){
-  ['fTitle','fNat','fCity2','fZone2','fAddr','fPrice','fSurf',
+  ['fTitle','fAgency','fNat','fCity2','fZone2','fAddr','fPrice','fSurf',
    'fRoomsN','fBeds','fBaths','fGarage','fGarden','fDesc','fPrivNote'].forEach(id=>{
     document.getElementById(id).value='';
   });
@@ -897,6 +1484,7 @@ function clearPropForm(){
 
 function fillPropForm(p){
   document.getElementById('fTitle').value=p.title||'';
+  document.getElementById('fAgency').value=p.agency||'';
   document.getElementById('fNat').value=p.nation||'';
   document.getElementById('fCity2').value=p.city||'';
   document.getElementById('fZone2').value=p.zone||'';
@@ -942,6 +1530,7 @@ function saveProperty(){
 
   const data={
     title,
+    agency:document.getElementById('fAgency').value.trim(),
     nation:document.getElementById('fNat').value.trim(),
     city:document.getElementById('fCity2').value.trim(),
     zone:document.getElementById('fZone2').value.trim(),
@@ -975,15 +1564,21 @@ function saveProperty(){
   closePropModal();
   refreshAll();
   const p=properties.find(x=>x.id===selectedId);
-  if(p) renderDetail(p);
+  if(p){ renderDetail(p); openDetailPanel(); }
 }
 
 function deleteProp(id){
-  if(!confirm('Eliminare questo immobile?'))return;
-  properties=properties.filter(x=>x.id!==id);
-  selectedId=null;
-  save();refreshAll();
-  document.getElementById('mainArea').innerHTML=`<div class="welcome"><div class="welcome-logo">⌂</div><h2>Immobile eliminato</h2></div>`;
+  requirePassword('Inserisci la password per eliminare questo immobile', async ()=>{
+    if(!confirm('Eliminare questo immobile?')) return;
+    properties = properties.filter(x => x.id !== id);
+    selectedId = null;
+    // Delete from Firestore
+    if(db){
+      try{ await db.collection('ire_props').doc(id).delete(); }catch(e){ console.warn(e); }
+    }
+    save(); refreshAll();
+    closeDetailPanel();
+  });
 }
 
 // ════════════════════════════════════════════════════════
@@ -999,17 +1594,24 @@ function triggerMedia(accept,mtype){
 }
 
 function handleMediaUpload(e){
-  const files=Array.from(e.target.files);
-  let done=0;
-  files.forEach(file=>{
-    const reader=new FileReader();
-    reader.onload=ev=>{
-      const mt=file.type.startsWith('image')?'img':file.type.startsWith('video')?'vid':'pdf';
-      modalMedia.push({id:uid(),mtype:mt,name:file.name,data:ev.target.result});
-      done++;
-      if(done===files.length) renderMediaPreview();
-    };
-    reader.readAsDataURL(file);
+  const files = Array.from(e.target.files);
+  const propId = editingPropId || 'temp_'+uid();
+  uploadMediaFiles(files, propId).then(results => {
+    modalMedia.push(...results);
+    renderMediaPreview();
+  });
+  e.target.value='';
+}
+
+function handleMediaUploadDirect(e, propId){
+  const p = properties.find(x=>x.id===propId);
+  if(!p) return;
+  if(!p.media) p.media=[];
+  const files = Array.from(e.target.files);
+  uploadMediaFiles(files, propId).then(results => {
+    p.media.push(...results);
+    save();
+    selectProp(propId);
   });
   e.target.value='';
 }
@@ -1018,8 +1620,9 @@ function renderMediaPreview(){
   const grid=document.getElementById('mediaPreviewGrid');
   if(!grid)return;
   grid.innerHTML=modalMedia.map((m,i)=>{
+    const src = m.url || m.data || '';
     let thumb='';
-    if(m.mtype==='img') thumb=`<img src="${m.data}" style="width:100%;height:100%;object-fit:cover;border-radius:3px">`;
+    if(m.mtype==='img') thumb=`<img src="${src}" style="width:100%;height:100%;object-fit:cover;border-radius:3px">`;
     else if(m.mtype==='vid') thumb=`<div style="display:flex;align-items:center;justify-content:center;width:76px;height:58px;font-size:28px;background:#f0f0f0;border-radius:4px">🎬</div>`;
     else thumb=`<div style="display:flex;align-items:center;justify-content:center;width:76px;height:58px;font-size:28px;background:#f0f0f0;border-radius:4px">📄</div>`;
     return`<div style="position:relative;width:76px;height:58px">
@@ -1172,35 +1775,156 @@ body{font-family:'Jost',sans-serif;background:#F7F3EC;color:#1A2433;font-size:15
 </body></html>`;
 }
 
-function shareWhatsApp(id){
+// ════════════════════════════════════════════════════════
+// SHARE MODAL
+// ════════════════════════════════════════════════════════
+let currentShareId = null;
+
+function openShareModal(id){
   const p=properties.find(x=>x.id===id);
   if(!p)return;
+  currentShareId=id;
+  currentShareLink='';
+  document.getElementById('shareTitle').textContent=p.title||'(senza titolo)';
+  document.getElementById('shareLoc').textContent=[p.zone,p.city,p.nation].filter(Boolean).join(' · ')||'—';
+  document.getElementById('sharePrice').textContent=fmtPrice(p.price)+(p.deal==='Affitto'?' / mese':'');
+  document.getElementById('waNumber').value='';
+  document.getElementById('shareLinkBox').style.display='none';
+  const btn=document.getElementById('genLinkBtn');
+  if(btn){btn.textContent='🔗 Genera Link Scheda';btn.disabled=false;}
+  document.getElementById('shareModal').classList.add('open');
+}
+function closeShareModal(){document.getElementById('shareModal').classList.remove('open')}
+
+function downloadCard(){
+  const p=properties.find(x=>x.id===currentShareId);
+  if(!p)return;
   const html=buildPublicCard(p);
-  const blob=new Blob([html],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const text=`🏠 *${p.title}*\n📍 ${[p.city,p.nation].filter(Boolean).join(', ')}\n💶 ${fmtPrice(p.price)}\n\nScheda completa: ${url}`;
-  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  const safeName=(p.title||'scheda').replace(/[^a-zA-Z0-9À-ÿ\s]/g,'').replace(/\s+/g,'-').toLowerCase();
+  a.download=`IRE-${safeName}.html`;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),5000);
 }
 
-function shareEmail(id){
-  const p=properties.find(x=>x.id===id);
-  if(!p)return;
-  const html=buildPublicCard(p);
-  const blob=new Blob([html],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const sub=`Immobile: ${p.title}`;
-  const body=`Gentile Cliente,\n\nLe inviamo la scheda dell'immobile:\n\n🏠 ${p.title}\n📍 ${[p.city,p.nation].filter(Boolean).join(', ')}\n💶 ${fmtPrice(p.price)}\n\nScheda: ${url}\n\nCordiali saluti,\nInternational Real Estate`;
-  window.location.href=`mailto:?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
+// ════════════════════════════════════════════════════════
+// SHARE — LINK UNIVOCO PER SCHEDA
+// ════════════════════════════════════════════════════════
+const SHARE_JSONBIN_KEY = '$2a$10$skPwjZ.Uh.DzntTLeMbKNuob1VhHwEA.qxZHvU8DMtn17hk4OgEwS';
+let currentShareLink = '';
+
+async function generateShareLink(){
+  const p = properties.find(x=>x.id===currentShareId);
+  if(!p) return;
+  const btn = document.getElementById('genLinkBtn');
+  btn.textContent = '⟳ Generazione...';
+  btn.disabled = true;
+
+  // Public card — no private notes, no agent name
+  const publicData = {
+    title:p.title, deal:p.deal, type:p.type,
+    nation:p.nation, city:p.city, zone:p.zone, address:p.address,
+    price:p.price, surface:p.surface, rooms:p.rooms,
+    beds:p.beds, baths:p.baths, garage:p.garage, garden:p.garden,
+    desc:p.desc, features:p.features||[],
+    media:(p.media||[]).map(m=>({mtype:m.mtype,name:m.name,url:m.url||m.data||''})),
+    generatedAt:Date.now()
+  };
+
+  try{
+    const res = await fetch('https://api.jsonbin.io/v3/b', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'X-Master-Key': SHARE_JSONBIN_KEY,
+        'X-Bin-Name':'ire-card-'+p.id,
+        'X-Bin-Private':'false'
+      },
+      body: JSON.stringify(publicData)
+    });
+    const data = await res.json();
+    const binId = data.metadata?.id;
+    if(!binId) throw new Error('No bin ID');
+
+    // Build viewer URL — opens the public card page
+    currentShareLink = `https://international-real-estate.netlify.app/?card=${binId}`;
+    document.getElementById('shareLinkText').textContent = currentShareLink;
+    document.getElementById('shareLinkBox').style.display = 'block';
+    btn.textContent = '🔄 Rigenera Link';
+    btn.disabled = false;
+
+    // Save bin ID to property
+    p.shareBinId = binId;
+    p.shareLink = currentShareLink;
+    save();
+  }catch(e){
+    console.warn('Share link error:', e);
+    btn.textContent = '🔗 Genera Link Scheda';
+    btn.disabled = false;
+    // Fallback: open card in new window
+    const html = buildPublicCard(p);
+    const win = window.open('','_blank');
+    if(win){ win.document.write(html); win.document.close(); }
+    alert('Link non disponibile. La scheda è stata aperta in una nuova finestra — salvala come PDF.');
+  }
 }
+
+function copyShareLink(){
+  navigator.clipboard.writeText(currentShareLink).then(()=>{
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiato!';
+    setTimeout(()=>btn.textContent=orig, 2000);
+  }).catch(()=>{
+    const ta = document.createElement('textarea');
+    ta.value = currentShareLink;
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    alert('Link copiato!');
+  });
+}
+
+function sendLinkWhatsApp(){
+  const p = properties.find(x=>x.id===currentShareId);
+  if(!p) return;
+  const num = (document.getElementById('waNumber').value||'').trim();
+  const msg = `🏠 *${p.title}*\n📍 ${[p.city,p.nation].filter(Boolean).join(', ')}\n💶 ${fmtPrice(p.price)}${p.deal==='Affitto'?' /mese':''}\n\n📋 Scheda completa:\n${currentShareLink}\n\n— International Real Estate`;
+  const clean = num ? num.replace(/[\s\-().+]/g,'') : '';
+  window.open(clean ? `https://wa.me/${clean}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function sendLinkEmail(){
+  const p = properties.find(x=>x.id===currentShareId);
+  if(!p) return;
+  const sub = encodeURIComponent(`Scheda Immobile: ${p.title}`);
+  const body = encodeURIComponent(`Gentile Cliente,\n\nLe inviamo la scheda dell'immobile di suo interesse:\n\n🏠 ${p.title}\n📍 ${[p.city,p.nation].filter(Boolean).join(', ')}\n💶 ${fmtPrice(p.price)}${p.deal==='Affitto'?' /mese':''}\n\nScheda completa con foto:\n${currentShareLink}\n\nRimanendo a Sua disposizione,\nCordiali saluti\nInternational Real Estate`);
+  window.location.href = `mailto:?subject=${sub}&body=${body}`;
+}
+
+function openWADirect(){
+  const raw = document.getElementById('waNumber').value.trim();
+  if(!raw){ alert('Inserisci il numero di telefono.'); return; }
+  const clean = raw.replace(/[\s\-().+]/g,'');
+  const p = properties.find(x=>x.id===currentShareId);
+  const msg = `🏠 *${p?.title||'Immobile'}*\n📍 ${[p?.city,p?.nation].filter(Boolean).join(', ')}\n💶 ${fmtPrice(p?.price)}${p?.deal==='Affitto'?' /mese':''}` + (currentShareLink ? `\n\n📋 Scheda:\n${currentShareLink}` : '');
+  window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function shareWhatsApp(id){openShareModal(id)}
+function shareEmail(id){openShareModal(id)}
 
 function printPDF(id){
-  const p=properties.find(x=>x.id===id);
+  const pid=id||currentShareId;
+  const p=properties.find(x=>x.id===pid);
   if(!p)return;
   const html=buildPublicCard(p);
   const win=window.open('','_blank');
+  if(!win){alert('Abilita i popup per questa pagina per generare il PDF.');return;}
   win.document.write(html);
   win.document.close();
-  win.onload=()=>{win.print();};
+  win.onload=()=>{setTimeout(()=>win.print(),300);};
 }
 
 // ════════════════════════════════════════════════════════
@@ -1283,14 +2007,150 @@ function loadDemo(){
 }
 
 // ════════════════════════════════════════════════════════
-// INIT
+// MOBILE SIDEBAR (drawer)
 // ════════════════════════════════════════════════════════
-load();
-if(properties.length===0){
-  loadDemo();
-  save();
+function isMobile(){return window.innerWidth<=768}
+
+function toggleMobSidebar(){
+  const sb=document.getElementById('mainSidebar');
+  const ov=document.getElementById('mobOverlay');
+  const btn=document.getElementById('mobSearchBtn');
+  const open=sb.classList.toggle('mob-open');
+  ov.classList.toggle('open',open);
+  btn.classList.toggle('active',open);
 }
-refreshAll();
+function closeMobSidebar(){
+  document.getElementById('mainSidebar').classList.remove('mob-open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  const btn=document.getElementById('mobSearchBtn');
+  if(btn)btn.classList.remove('active');
+}
+
+// Swipe down to close sidebar on mobile
+(function(){
+  let startY=0;
+  document.addEventListener('touchstart',e=>{startY=e.touches[0].clientY},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const sb=document.getElementById('mainSidebar');
+    if(sb&&sb.classList.contains('mob-open')&&(e.changedTouches[0].clientY-startY)>60) closeMobSidebar();
+  },{passive:true});
+})();
+
+// Re-layout on orientation change
+window.addEventListener('orientationchange',()=>{
+  setTimeout(()=>{closeMobSidebar();},300);
+});
+
+// ════════════════════════════════════════════════════════
+// CARD VIEWER — apre scheda pubblica da link
+// ════════════════════════════════════════════════════════
+async function checkCardViewer(){
+  const params = new URLSearchParams(window.location.search);
+  const binId = params.get('card');
+  if(!binId) return false;
+
+  // Show loading screen
+  document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:'Jost',sans-serif;background:#F7F3EC;flex-direction:column;gap:1rem">
+    <div style="font-family:'Playfair Display',serif;font-size:24px;color:#0D1B2A">International Real Estate</div>
+    <div style="color:#7A8899;font-size:14px">⟳ Caricamento scheda...</div>
+  </div>`;
+
+  try{
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
+      headers:{'X-Master-Key': '$2a$10$skPwjZ.Uh.DzntTLeMbKNuob1VhHwEA.qxZHvU8DMtn17hk4OgEwS'}
+    });
+    const data = await res.json();
+    const p = data.record;
+    if(!p) throw new Error('No data');
+
+    // Build and show public card
+    const html = buildPublicCardFromData(p);
+    document.open(); document.write(html); document.close();
+  }catch(e){
+    document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:'Jost',sans-serif;background:#F7F3EC;flex-direction:column;gap:1rem;text-align:center;padding:2rem">
+      <div style="font-size:48px">⌂</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;color:#0D1B2A">Scheda non trovata</div>
+      <div style="color:#7A8899;font-size:14px">Il link potrebbe essere scaduto o non valido.</div>
+      <a href="/" style="color:#C9A84C;font-weight:500;margin-top:1rem">← Torna al database</a>
+    </div>`;
+  }
+  return true;
+}
+
+function buildPublicCardFromData(p){
+  const loc = [p.address, p.zone, p.city, p.nation].filter(Boolean).join(', ');
+  const mapUrl = p.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.address)}` : '';
+  const feats = (p.features||[]).filter(Boolean);
+  const media = p.media||[];
+  const firstImg = media.find(m=>m.mtype==='img');
+  const fmtP = n => n ? '€ '+Number(n).toLocaleString('it-IT') : '—';
+  const infos = [
+    ['Tipologia',p.type],['Superficie',p.surface?p.surface+' m²':null],
+    ['Locali',p.rooms],['Camere da letto',p.beds],['Bagni',p.baths],
+    ['Garage',p.garage],['Giardino/Terreno',p.garden]
+  ].filter(([,v])=>v);
+
+  return `<!DOCTYPE html>
+<html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${p.title||'Immobile'} — International Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Jost',sans-serif;background:#F7F3EC;color:#1A2433;font-size:15px}
+.hdr{background:#0D1B2A;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.hdr-brand{font-family:'Playfair Display',serif;font-size:18px;color:#C9A84C;letter-spacing:.06em}
+.hdr-brand small{display:block;color:rgba(255,255,255,.4);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.wrap{max-width:960px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.title{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#0D1B2A;margin-bottom:4px}
+.loc{color:#7A8899;font-size:13px;margin-bottom:.5rem}
+.price{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:#8A6E2F;margin-bottom:1.5rem}
+.tag{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+.tag-v{background:rgba(42,122,74,.15);color:#2A7A4A}
+.tag-a{background:rgba(201,168,76,.2);color:#8A6E2F}
+.main-img{width:100%;max-height:460px;object-fit:cover;border-radius:8px;margin-bottom:10px}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.thumbs img{width:90px;height:68px;object-fit:cover;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
+.thumbs img:hover{border-color:#C9A84C}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:1.5rem}
+.icard{background:#fff;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:12px}
+.icard .l{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#7A8899;font-weight:600;margin-bottom:3px}
+.icard .v{font-weight:600;font-size:15px}
+.feats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+.feat{background:#fff;border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:500}
+.desc{background:#fff;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:16px;line-height:1.8;margin-bottom:1.5rem;white-space:pre-wrap;font-size:14px}
+.sec-t{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#0D1B2A;margin-bottom:.75rem;padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,.2)}
+.maplink{display:inline-flex;align-items:center;gap:6px;color:#8A6E2F;font-weight:500;text-decoration:none;font-size:13px;margin-bottom:1.5rem}
+.foot{background:#0D1B2A;color:rgba(255,255,255,.4);font-size:12px;text-align:center;padding:20px;margin-top:3rem}
+@media(max-width:600px){.title{font-size:22px}.price{font-size:26px}.grid{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<div class="hdr">
+  <div class="hdr-brand">International Real Estate<small>Property Details</small></div>
+</div>
+<div class="wrap">
+  <div class="tag ${p.deal==='Affitto'?'tag-a':'tag-v'}">${p.deal||'Vendita'}</div>
+  <div class="title">${p.title||'Immobile'}</div>
+  <div class="loc">📍 ${loc||'—'}</div>
+  ${mapUrl?`<a class="maplink" href="${mapUrl}" target="_blank">🗺 Vedi su Google Maps</a>`:''}
+  <div class="price">${fmtP(p.price)}${p.deal==='Affitto'?' <small style="font-size:15px;font-family:Jost,sans-serif;font-weight:400">/mese</small>':''}</div>
+  ${firstImg?`<img class="main-img" id="mainImg" src="${firstImg.url}" alt="">`:''}
+  ${media.filter(m=>m.mtype==='img').length>1?`<div class="thumbs">${media.filter(m=>m.mtype==='img').map(m=>`<img src="${m.url}" onclick="document.getElementById('mainImg').src=this.src">`).join('')}</div>`:''}
+  <div class="grid">${infos.map(([l,v])=>`<div class="icard"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('')}</div>
+  ${feats.length?`<div class="sec-t">Caratteristiche</div><div class="feats">${feats.map(f=>`<span class="feat">✓ ${f}</span>`).join('')}</div>`:''}
+  ${p.desc?`<div class="sec-t">Descrizione</div><div class="desc">${p.desc}</div>`:''}
+</div>
+<div class="foot">International Real Estate — Scheda generata il ${new Date().toLocaleDateString('it-IT')}</div>
+</body></html>`;
+}
+(async function(){
+  // Check if opening a shared card link (?card=binId)
+  const isViewer = await checkCardViewer();
+  if(isViewer) return;
+
+  // Normal app init
+  try{ await initFirebase(); }catch(e){ console.warn('Firebase init error:', e); }
+  try{ await load(); }catch(e){ console.warn('Load error:', e); }
+  refreshAll();
+})();
 </script>
 </body>
 </html>
