@@ -1997,11 +1997,8 @@ async function generateShareLink(){
     });
     if(!res.ok) throw new Error('GitHub: '+(await res.text()));
     const longUrl = `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}/${fileName}`;
-    // Shorten with TinyURL
-    try{
-      const tiny = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`);
-      currentShareLink = tiny.ok ? (await tiny.text()).trim() : longUrl;
-    }catch(e){ currentShareLink = longUrl; }
+    // Use direct GitHub Pages link (TinyURL breaks Open Graph previews on WhatsApp)
+    currentShareLink = longUrl;
     document.getElementById('shareLinkText').textContent = currentShareLink;
     document.getElementById('shareLinkBox').style.display = 'block';
     btn.textContent = '🔄 Rigenera Link';
